@@ -1,10 +1,9 @@
 name: Publish Packages
 
 on:
-  workflow_call:
-    secrets:
-      NPM_TOKEN:
-        required: true
+  push:
+    tags:
+      - v*
 
 permissions:
   contents: read
@@ -17,11 +16,6 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v6
-
-      - name: Restore Build Result
-        uses: actions/download-artifact@v8
-        with:
-          name: build-result
 
       - name: Install pnpm
         uses: pnpm/action-setup@v4
@@ -36,4 +30,4 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: Publish packages
-        run: pnpm publish
+        run: pnpm publish --no-git-checks
