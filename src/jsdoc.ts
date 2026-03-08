@@ -28,17 +28,17 @@ export interface JsdocConfigOptions {
    *
    * @default true
    */
-  ts?: boolean;
+  typescript?: boolean;
 }
 
 /**
  * @returns jsdoc config
  */
-export const getJsdocConfig = ({ ts = true }: JsdocConfigOptions = {}): OxlintConfig =>
+export const getJsdocConfig = ({ typescript = true }: JsdocConfigOptions = {}): OxlintConfig =>
   defineConfig({
     plugins: ["jsdoc"],
     rules: {
       ...jsdocRules,
-      ...(ts ? jsdocTypescriptRules : {}),
+      ...(typescript ? jsdocTypescriptRules : {}),
     },
   });

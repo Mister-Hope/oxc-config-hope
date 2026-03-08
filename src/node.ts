@@ -22,7 +22,7 @@ export interface NodeConfigOptions {
   /**
    * glob patterns for files that should be treated as node environment.
    */
-  nodeFiles?: string | string[] | false;
+  nodeFiles?: string | string[];
 }
 
 /**
@@ -45,27 +45,33 @@ const DEFAULT_NODE_PATTERNS = [
 ];
 
 export const getNodeConfig = (options?: NodeConfigOptions | NodeSimpleOptions): OxlintConfig => {
+  if (options === false) return defineConfig({});
+
   let global = false;
-  let nodeFiles: string | string[] | false = DEFAULT_NODE_PATTERNS;
+  let nodeFilePatterns: string[] = DEFAULT_NODE_PATTERNS;
 
-  if (typeof options === "boolean") global = options;
-  else if (typeof options === "string") nodeFiles = options;
-  else if (Array.isArray(options)) nodeFiles = options;
-  else if (typeof options === "object" && options != null)
-    ({ global = false, nodeFiles = DEFAULT_NODE_PATTERNS } = options);
+  if (options === true) {
+    global = true;
+  } else if (typeof options === "string") {
+    nodeFilePatterns = [options];
+  } else if (Array.isArray(options)) {
+    nodeFilePatterns = options;
+  } else if (typeof options === "object" && options != null) {
+    global = options.global ?? false;
+    nodeFilePatterns = Array.isArray(options.nodeFiles)
+      ? options.nodeFiles
+      : options.nodeFiles
+        ? [options.nodeFiles]
+        : DEFAULT_NODE_PATTERNS;
+  }
 
-  if (global) // enable node plugin globally
-  {
+  if (global) {
+    // enable node plugin globally
     return defineConfig({
       plugins: ["node"],
       rules: nodeRules,
     });
   }
-
-  // oxlint-disable-next-line typescript/strict-boolean-expressions
-  if (!nodeFiles) return defineConfig({});
-
-  const nodeFilePatterns = Array.isArray(nodeFiles) ? nodeFiles : [nodeFiles];
 
   // enable node plugin for specific files
   return defineConfig({

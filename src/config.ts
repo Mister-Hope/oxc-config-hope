@@ -1,12 +1,19 @@
 import type { OxlintConfig } from "./helper.ts";
 import { coreConfig } from "./core.ts";
-import { getNodeConfig, type NodeConfigOptions, type NodeSimpleOptions } from "./node.ts";
+import { getNodeConfig } from "./node.ts";
+import type { NodeConfigOptions, NodeSimpleOptions } from "./node.ts";
 import { typescriptConfig } from "./typescript.ts";
 import { getJsdocConfig } from "./jsdoc.ts";
 import { reactConfig } from "./react.ts";
 import { vueConfig } from "./vue.ts";
-import { getVitestConfig, type VitestSimpleOptions, type VitestConfigOptions } from "./vitest.ts";
-import { getPlaywrightConfig, type PlaywrightSimpleOptions } from "./playwright.ts";
+import { getVitestConfig } from "./vitest.ts";
+import type { VitestSimpleOptions, VitestConfigOptions } from "./vitest.ts";
+import { getPlaywrightConfig } from "./playwright.ts";
+import type { PlaywrightSimpleOptions } from "./playwright.ts";
+import { oxcConfig } from "./oxc.ts";
+import { promiseConfig } from "./promise.ts";
+import { unicornConfig } from "./unicorn.ts";
+import { importConfig } from "./import.ts";
 
 export interface ConfigOptions {
   /**
@@ -17,11 +24,39 @@ export interface ConfigOptions {
   jsdoc?: boolean;
 
   /**
+   * Whether to include import related rules
+   *
+   * @default true
+   */
+  import?: boolean;
+
+  /**
+   * Whether to include oxc related rules
+   *
+   * @default true
+   */
+  oxc?: boolean;
+
+  /**
+   * Whether to include promise related rules
+   *
+   * @default true
+   */
+  promise?: boolean;
+
+  /**
+   * Whether to include unicorn related rules
+   *
+   * @default true
+   */
+  unicorn?: boolean;
+
+  /**
    * Whether to include typescript related rules
    *
    * @default true
    */
-  ts?: boolean;
+  typescript?: boolean;
 
   /**
    * Node related configuration.
@@ -70,8 +105,12 @@ export interface ConfigOptions {
 }
 
 export const getOxlintConfigs = ({
-  ts = true,
+  typescript = true,
   jsdoc = true,
+  import: importOption = true,
+  oxc = true,
+  promise = true,
+  unicorn = true,
   vitest = true,
   node,
   playwright,
@@ -80,11 +119,17 @@ export const getOxlintConfigs = ({
 }: ConfigOptions = {}): OxlintConfig[] => {
   const results: OxlintConfig[] = [coreConfig];
 
+  if (importOption) results.push(importConfig);
+  if (oxc) results.push(oxcConfig);
+  if (promise) results.push(promiseConfig);
+  if (unicorn) results.push(unicornConfig);
+
   const nodeConfig = getNodeConfig(node);
 
   if (Object.keys(nodeConfig).length > 0) results.push(nodeConfig);
-  if (ts) results.push(typescriptConfig);
-  if (jsdoc) results.push(getJsdocConfig({ ts }));
+
+  if (typescript) results.push(typescriptConfig);
+  if (jsdoc) results.push(getJsdocConfig({ typescript }));
   if (react) results.push(reactConfig);
   if (vue) results.push(vueConfig);
   // oxlint-disable-next-line typescript/strict-boolean-expressions
