@@ -8,7 +8,7 @@ export const vitestRules = defineRules({
   "vitest/consistent-test-filename": [
     "warn",
     {
-      allTestPattern: "(^|\\/)(?:__tests__|tests)\\/",
+      allTestPattern: "(^|\\/)(?:__tests__|tests)\\/(?!__fixtures__\\/|fixtures\\/)",
       pattern: ".*\\.((bench|spec)\\.[tj]sx?|spec-d\\.ts)$",
     },
   ],
