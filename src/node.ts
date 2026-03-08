@@ -40,8 +40,6 @@ const DEFAULT_NODE_PATTERNS = [
   // cli and node files
   "**/{cli,node}/**/*.{js,ts}",
   "**/{cli,node}.{js,ts}",
-  // config files
-  "*.config.{js,ts,mjs,mts,cjs,cts}",
 ];
 
 export const getNodeConfig = (options?: NodeConfigOptions | NodeSimpleOptions): OxlintConfig => {
@@ -83,6 +81,15 @@ export const getNodeConfig = (options?: NodeConfigOptions | NodeSimpleOptions): 
         rules: {
           // allow console usage in scripts files
           "no-console": "off",
+          ...nodeRules,
+        },
+      },
+      {
+        files: ["*.config.{js,ts,mjs,mts,cjs,cts}"],
+        plugins: ["node"],
+        rules: {
+          // config files shall be allowed to access process.env
+          "node/no-process-env": "off",
           ...nodeRules,
         },
       },
