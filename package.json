@@ -1,6 +1,6 @@
 {
   "name": "oxc-config-hope",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "Personal configuration for oxc.",
   "keywords": [
     "eslint",
@@ -39,6 +39,7 @@
     "prepublish": "pnpm build"
   },
   "devDependencies": {
+    "@mr-hope/tsconfig": "0.0.2",
     "tsdown": "0.21.0",
     "typescript": "^5.9.3"
   },

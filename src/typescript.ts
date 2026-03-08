@@ -61,8 +61,8 @@ export const typescriptRules = defineRules({
   ],
   // allow default case to cover exhaustive switch cases
   "typescript/switch-exhaustiveness-check": ["warn", { considerDefaultExhaustiveForUnions: true }],
-  // missing async with await will be reported by typescript itself
-  "typescript/promise-function-async": "off",
+  // avoid forcing arrow functions with async
+  "typescript/promise-function-async": ["error", { checkArrowFunctions: false }],
 });
 
 /**

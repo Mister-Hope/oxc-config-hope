@@ -1,8 +1,7 @@
 {
-  "extends": "./tsconfig.base.json",
+  "extends": "@mr-hope/tsconfig/check.json",
   "compilerOptions": {
-    "noEmit": true,
-    "rewriteRelativeImportExtensions": true
+    "allowImportingTsExtensions": true
   },
   "include": ["**/*.ts"]
 }
