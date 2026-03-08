@@ -16,6 +16,10 @@
     "email": "mister-hope@outlook.com",
     "url": "https://mister-hope.com"
   },
+  "files": [
+    "dist",
+    ".oxfmtrc.json"
+  ],
   "type": "module",
   "exports": {
     ".": {
@@ -28,7 +32,8 @@
     "build": "tsdown",
     "lint": "pnpm lint:oxlint --fix && oxfmt .",
     "lint:check": "pnpm lint:oxlint && oxfmt --check .",
-    "lint:oxlint": "oxlint --report-unused-disable-directives --deny-warnings"
+    "lint:oxlint": "oxlint --report-unused-disable-directives --deny-warnings",
+    "prepublish": "pnpm build"
   },
   "devDependencies": {
     "tsdown": "0.21.0",
