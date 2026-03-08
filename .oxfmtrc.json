@@ -1,8 +1,12 @@
 {
   "$schema": "./node_modules/oxfmt/configuration_schema.json",
   "ignorePatterns": [
-    "coverage/",
+    // common build output folder
     "**/dist/**",
+    // test coverage
+    "coverage/",
+
+    // vuepress related
     "**/.vuepress/.cache/**",
     "**/.vuepress/.temp/**",
     "**/.vuepress/dist/**"

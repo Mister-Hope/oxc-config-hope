@@ -81,6 +81,8 @@ export const getNodeConfig = (options?: NodeConfigOptions | NodeSimpleOptions): 
         rules: {
           // allow console usage in scripts files
           "no-console": "off",
+          // scripts files shall be allowed to access process.env
+          "node/no-process-env": "off",
           ...nodeRules,
         },
       },
