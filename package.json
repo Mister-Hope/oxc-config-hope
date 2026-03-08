@@ -16,6 +16,9 @@
     "email": "mister-hope@outlook.com",
     "url": "https://mister-hope.com"
   },
+  "repository": {
+    "url": "https://github.com/Mister-Hope/oxc-config-hope"
+  },
   "files": [
     "dist",
     ".oxfmtrc.json"
