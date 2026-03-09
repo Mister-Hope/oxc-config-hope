@@ -96,6 +96,13 @@ export const getNodeConfig = (options?: NodeConfigOptions | NodeSimpleOptions): 
         },
       },
       {
+        files: ["{vite,vitest}.config.{js,ts,mjs,mts,cjs,cts}"],
+        rules: {
+          // vite loader polyfills __dirname and __filename
+          "prefer-module": "off",
+        },
+      },
+      {
         files: nodeFilePatterns,
         plugins: ["node"],
         rules: nodeRules,

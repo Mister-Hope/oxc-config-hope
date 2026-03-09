@@ -5,20 +5,6 @@ import { defineConfig, defineRules } from "./helper.ts";
  * vitest plugin rules
  */
 export const vitestRules = defineRules({
-  "vitest/consistent-test-filename": [
-    "warn",
-    {
-      allTestPattern: "(^|\\/)(?:__tests__|tests)\\/(?!__fixtures__\\/|fixtures\\/)",
-      pattern: ".*\\.((bench|spec)\\.[tj]sx?|spec-d\\.ts)$",
-    },
-  ],
-  "vitest/no-importing-vitest-globals": "off",
-  "vitest/prefer-called-once": "off",
-  "vitest/prefer-to-be-falsy": "off",
-  "vitest/prefer-to-be-truthy": "off",
-});
-
-export const vitestTestFileRules = defineRules({
   // stylistic rules
   "id-length": "off",
   "max-classes-per-file": "off",
@@ -44,6 +30,18 @@ export const vitestTestFileRules = defineRules({
 
   // test functions shall be placed near tests, not the beginning of the file
   "unicorn/consistent-function-scoping": "off",
+
+  "vitest/consistent-test-filename": [
+    "warn",
+    {
+      allTestPattern: "(^|\\/)(?:__tests__|tests)\\/(?!__fixtures__\\/|fixtures\\/)",
+      pattern: ".*\\.((bench|spec)\\.[tj]sx?|spec-d\\.ts)$",
+    },
+  ],
+  "vitest/no-importing-vitest-globals": "off",
+  "vitest/prefer-called-once": "off",
+  "vitest/prefer-to-be-falsy": "off",
+  "vitest/prefer-to-be-truthy": "off",
 });
 
 /**
@@ -104,13 +102,12 @@ export const getVitestConfig = (
   }
 
   return defineConfig({
-    plugins: ["vitest"],
-    rules: vitestRules,
     overrides: [
       {
         // oxlint-disable-next-line typescript/strict-boolean-expressions
         files: benchPatterns ? [...testPatterns, ...benchPatterns] : testPatterns,
-        rules: vitestTestFileRules,
+        plugins: ["vitest"],
+        rules: vitestRules,
       },
     ],
   });
