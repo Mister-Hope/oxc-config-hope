@@ -1,4 +1,4 @@
-import { defineConfig, getOxlintConfigs } from "./src/index.ts";
+import { defineConfig, getOxlintConfigs } from "./src/oxlint/index.ts";
 
 export default defineConfig({
   extends: getOxlintConfigs({

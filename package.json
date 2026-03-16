@@ -1,6 +1,6 @@
 {
   "name": "oxc-config-hope",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "description": "Personal configuration for oxc.",
   "keywords": [
     "eslint",
@@ -25,9 +25,13 @@
   ],
   "type": "module",
   "exports": {
-    ".": {
-      "types": "./dist/index.d.ts",
-      "default": "./dist/index.js"
+    "./oxfmt": {
+      "types": "./dist/oxfmt.d.ts",
+      "default": "./dist/oxfmt.js"
+    },
+    "./oxlint": {
+      "types": "./dist/oxlint.d.ts",
+      "default": "./dist/oxlint.js"
     },
     "./package.json": "./package.json"
   },
@@ -40,6 +44,7 @@
   },
   "devDependencies": {
     "@mr-hope/tsconfig": "0.0.2",
+    "publint": "0.3.18",
     "tsdown": "0.21.3",
     "typescript": "^5.9.3"
   },
