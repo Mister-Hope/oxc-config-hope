@@ -1,19 +1,19 @@
-import type { OxlintConfig } from "./helper.ts";
 import { coreConfig } from "./core.ts";
+import type { OxlintConfig } from "./helper.ts";
+import { importConfig } from "./import.ts";
+import { getJsdocConfig } from "./jsdoc.ts";
 import { getNodeConfig } from "./node.ts";
 import type { NodeConfigOptions, NodeSimpleOptions } from "./node.ts";
-import { typescriptConfig } from "./typescript.ts";
-import { getJsdocConfig } from "./jsdoc.ts";
-import { reactConfig } from "./react.ts";
-import { vueConfig } from "./vue.ts";
-import { getVitestConfig } from "./vitest.ts";
-import type { VitestSimpleOptions, VitestConfigOptions } from "./vitest.ts";
+import { oxcConfig } from "./oxc.ts";
 import { getPlaywrightConfig } from "./playwright.ts";
 import type { PlaywrightSimpleOptions } from "./playwright.ts";
-import { oxcConfig } from "./oxc.ts";
 import { promiseConfig } from "./promise.ts";
+import { reactConfig } from "./react.ts";
+import { typescriptConfig } from "./typescript.ts";
 import { unicornConfig } from "./unicorn.ts";
-import { importConfig } from "./import.ts";
+import { getVitestConfig } from "./vitest.ts";
+import type { VitestSimpleOptions, VitestConfigOptions } from "./vitest.ts";
+import { vueConfig } from "./vue.ts";
 
 export interface ConfigOptions {
   /**

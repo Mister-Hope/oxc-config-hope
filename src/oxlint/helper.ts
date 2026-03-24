@@ -1,6 +1,7 @@
 import type { DummyRuleMap, RuleCategories } from "oxlint";
 
-export { defineConfig, type OxlintConfig } from "oxlint";
+export { defineConfig } from "oxlint";
+export type { OxlintConfig } from "oxlint";
 
 export const defineCategories = (categories: RuleCategories): RuleCategories => categories;
 

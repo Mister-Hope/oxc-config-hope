@@ -1,6 +1,8 @@
 import { defineConfig } from "oxfmt";
 export { defineConfig } from "oxfmt";
 
+export type { OxfmtConfig } from "oxfmt";
+
 export const config = defineConfig({
   ignorePatterns: [
     // common build output folder
@@ -13,7 +15,10 @@ export const config = defineConfig({
     "**/.vuepress/.temp/**",
     "**/.vuepress/dist/**",
   ],
+
   sortPackageJson: {
     sortScripts: true,
   },
+
+  sortImports: {},
 });
