@@ -42,6 +42,8 @@ export const vitestRules = defineRules({
   "vitest/prefer-called-once": "off",
   "vitest/prefer-to-be-falsy": "off",
   "vitest/prefer-to-be-truthy": "off",
+  // we may need to check truthy and falsy values in tests, so we don't enforce strict boolean matchers
+  "vitest/prefer-strict-boolean-matchers": "off",
 });
 
 /**
