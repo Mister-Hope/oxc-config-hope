@@ -103,7 +103,7 @@ export const typescriptConfig = defineConfig({
     // disable typescript types checking
     // See: https://github.com/typescript-eslint/typescript-eslint/blob/main/packages/eslint-plugin/src/configs/eslintrc/disable-type-checked.ts
     {
-      files: ["*.js", "*.jsx"],
+      files: ["*.js", "*.jsx", "*.cjs", "*.mjs"],
       rules: {
         "typescript/await-thenable": "off",
         "typescript/consistent-return": "off",
