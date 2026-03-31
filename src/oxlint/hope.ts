@@ -1,0 +1,30 @@
+import type { DummyRuleMap, OxlintOverride } from "oxlint";
+
+import { getOxlintConfigs } from "./config.ts";
+import type { ConfigOptions } from "./config.ts";
+import { defineConfig } from "./helper.ts";
+import type { OxlintConfig } from "./helper.ts";
+import { defaultIgnorePatterns } from "./ignore.ts";
+
+export interface HopeConfigOptions extends ConfigOptions {
+  /**
+   * Glob patterns for files to ignore. It supports the same syntax as .eslintignore.
+   */
+  ignorePatterns?: string[];
+}
+
+export const defineHopeConfig = (
+  options: HopeConfigOptions = {},
+  rules: DummyRuleMap = {},
+  overrides: OxlintOverride[] = [],
+): OxlintConfig =>
+  defineConfig({
+    extends: getOxlintConfigs(options),
+    ignorePatterns: [...defaultIgnorePatterns, ...(options.ignorePatterns ?? [])],
+    options: {
+      typeAware: true,
+      typeCheck: true,
+    },
+    rules,
+    overrides,
+  });
