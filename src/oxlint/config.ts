@@ -98,7 +98,7 @@ export interface ConfigOptions {
    *
    * By default, it includes common config files and cli/node files.
    */
-  node?: NodeScopeOptions;
+  node?: NodeScopeOptions | false;
 
   /**
    * Additional node rules, merged with default node rules.
@@ -153,6 +153,7 @@ export interface ConfigOptions {
   playwright?: PlaywrightSimpleOptions;
 }
 
+// oxlint-disable-next-line complexity
 export const getOxlintConfigs = ({
   ts = true,
   tsRules,
@@ -169,7 +170,7 @@ export const getOxlintConfigs = ({
   vitest = true,
   vitestRules,
   vitestBenchRules,
-  node,
+  node = "default",
   nodeRules,
   playwright,
   react,

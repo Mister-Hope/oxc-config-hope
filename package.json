@@ -1,6 +1,6 @@
 {
   "name": "oxc-config-hope",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Personal configuration for oxc.",
   "keywords": [
     "eslint",

@@ -57,6 +57,7 @@ const DEFAULT_NODE_PATTERNS = [
  *
  * @param scope Node related configuration options.
  *
+ * - `'default'`: use default node file patterns (config files and cli/node files).
  * - `true`: enable node plugin globally, all files are treated as node environment. Use with caution since it may cause false positives in non-node files.
  * - `false`: do not enable node plugin.
  * - `string` or `string[]`: glob patterns for files that should be treated as node environment.
@@ -72,7 +73,7 @@ export const getNodeConfig = (
 
   if (scope === true) {
     global = true;
-  } else if (typeof scope === "string") {
+  } else if (typeof scope === "string" && scope !== "default") {
     nodeFilePatterns = [scope];
   } else if (Array.isArray(scope)) {
     nodeFilePatterns = scope;
