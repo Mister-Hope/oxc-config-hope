@@ -2,6 +2,7 @@ export * from "./categories.ts";
 export * from "./config.ts";
 export * from "./core.ts";
 export * from "./helper.ts";
+export * from "./hope.ts";
 export * from "./ignore.ts";
 export * from "./import.ts";
 export * from "./jsdoc.ts";
