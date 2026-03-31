@@ -1,4 +1,4 @@
-import type { DummyRuleMap, OxlintOverride } from "oxlint";
+import type { OxlintOverride } from "oxlint";
 
 import { getOxlintConfigs } from "./config.ts";
 import type { ConfigOptions } from "./config.ts";
@@ -15,7 +15,6 @@ export interface HopeConfigOptions extends ConfigOptions {
 
 export const defineHopeConfig = (
   options: HopeConfigOptions = {},
-  rules: DummyRuleMap = {},
   overrides: OxlintOverride[] = [],
 ): OxlintConfig =>
   defineConfig({
@@ -25,6 +24,5 @@ export const defineHopeConfig = (
       typeAware: true,
       typeCheck: true,
     },
-    rules,
     overrides,
   });

@@ -1,4 +1,4 @@
-import { coreConfig } from "./core.ts";
+import { getCoreConfig } from "./core.ts";
 import type { DummyRuleMap, OxlintConfig } from "./helper.ts";
 import { getImportConfig } from "./import.ts";
 import { getJsdocConfig } from "./jsdoc.ts";
@@ -16,6 +16,11 @@ import type { VitestScopeOptions } from "./vitest.ts";
 import { getVueConfig } from "./vue.ts";
 
 export interface ConfigOptions {
+  /**
+   * Additional rules to be merged with default rules in core config.
+   */
+  rules?: DummyRuleMap;
+
   /**
    * Whether to include typescript related rules
    *
@@ -155,6 +160,7 @@ export interface ConfigOptions {
 
 // oxlint-disable-next-line complexity
 export const getOxlintConfigs = ({
+  rules,
   ts = true,
   tsRules,
   oxc = true,
@@ -178,7 +184,7 @@ export const getOxlintConfigs = ({
   vue,
   vueRules,
 }: ConfigOptions = {}): OxlintConfig[] => {
-  const results: OxlintConfig[] = [coreConfig];
+  const results: OxlintConfig[] = [getCoreConfig({ rules })];
 
   if (ts) results.push(getTypeScriptConfig({ rules: tsRules }));
   if (oxc) results.push(getOxcConfig({ rules: oxcRules }));

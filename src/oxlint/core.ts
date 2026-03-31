@@ -1,5 +1,5 @@
 import { defaultCategories } from "./categories.ts";
-import { defineConfig, defineRules } from "./helper.ts";
+import { defineConfig, defineRules, type DummyRuleMap, type OxlintConfig } from "./helper.ts";
 
 /**
  * oxlint core rules
@@ -95,20 +95,29 @@ export const stylisticRules = defineRules({
   "max-statements": ["warn", { max: 30 }],
 });
 
-export const coreConfig = defineConfig({
-  categories: defaultCategories,
-  plugins: ["eslint"],
-  rules: {
-    ...coreRules,
-    ...stylisticRules,
-  },
-  overrides: [
-    // allow commonjs usage in cjs files
-    {
-      files: ["*.cjs", "*.cts"],
-      rules: {
-        "no-require-imports": "off",
-      },
+export interface CoreConfigOptions {
+  /**
+   * Additional core rules, merged with default core rules.
+   */
+  rules?: DummyRuleMap;
+}
+
+export const getCoreConfig = ({ rules }: CoreConfigOptions = {}): OxlintConfig =>
+  defineConfig({
+    categories: defaultCategories,
+    plugins: ["eslint"],
+    rules: {
+      ...coreRules,
+      ...stylisticRules,
+      ...rules,
     },
-  ],
-});
+    overrides: [
+      // allow commonjs usage in cjs files
+      {
+        files: ["*.cjs", "*.cts"],
+        rules: {
+          "no-require-imports": "off",
+        },
+      },
+    ],
+  });
