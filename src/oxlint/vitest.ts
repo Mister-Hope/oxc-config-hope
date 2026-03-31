@@ -41,6 +41,8 @@ export const vitestRules = defineRules({
 
   // test functions shall be placed near tests, not the beginning of the file
   "unicorn/consistent-function-scoping": "off",
+  // we may implicit use func(undefined) in tests, this will be considered useless
+  "unicorn/no-useless-undefined": "off",
 
   "vitest/consistent-test-filename": [
     "warn",
