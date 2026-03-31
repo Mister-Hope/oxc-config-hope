@@ -1,5 +1,6 @@
 import { getCoreConfig } from "./core.ts";
 import type { DummyRuleMap, OxlintConfig } from "./helper.ts";
+import { splitRulesByPrefix } from "./helper.ts";
 import { getImportConfig } from "./import.ts";
 import { getJsdocConfig } from "./jsdoc.ts";
 import { getNodeConfig } from "./node.ts";
@@ -17,7 +18,7 @@ import { getVueConfig } from "./vue.ts";
 
 export interface ConfigOptions {
   /**
-   * Additional rules to be merged with default rules in core config.
+   * Rules to configure.
    */
   rules?: DummyRuleMap;
 
@@ -29,21 +30,11 @@ export interface ConfigOptions {
   ts?: boolean;
 
   /**
-   * Additional typescript rules, merged with default typescript rules.
-   */
-  tsRules?: DummyRuleMap;
-
-  /**
    * Whether to include import related rules
    *
    * @default true
    */
   import?: boolean;
-
-  /**
-   * Additional import rules, merged with default import rules.
-   */
-  importRules?: DummyRuleMap;
 
   /**
    * Whether to include jsdoc related rules
@@ -53,21 +44,11 @@ export interface ConfigOptions {
   jsdoc?: boolean;
 
   /**
-   * Additional jsdoc rules, merged with default jsdoc rules.
-   */
-  jsdocRules?: DummyRuleMap;
-
-  /**
    * Additional oxc rules
    *
    * @default true
    */
   oxc?: boolean;
-
-  /**
-   * Additional oxc rules, merged with default oxc rules.
-   */
-  oxcRules?: DummyRuleMap;
 
   /**
    * Whether to include promise related rules
@@ -77,11 +58,6 @@ export interface ConfigOptions {
   promise?: boolean;
 
   /**
-   * Additional promise rules, merged with default promise rules.
-   */
-  promiseRules?: DummyRuleMap;
-
-  /**
    * Whether to include unicorn related rules
    *
    * @default true
@@ -89,26 +65,15 @@ export interface ConfigOptions {
   unicorn?: boolean;
 
   /**
-   * Additional unicorn rules, merged with default unicorn rules.
-   */
-  unicornRules?: DummyRuleMap;
-
-  /**
    * Node related configuration.
    *
    * - `true`: enable node plugin globally, all files are treated as node environment. Use with caution since it may cause false positives in non-node files.
    * - `false`: do not enable node plugin.
    * - `string` or `string[]`: glob patterns for files that should be treated as node environment.
-   * - `
    *
    * By default, it includes common config files and cli/node files.
    */
   node?: NodeScopeOptions | false;
-
-  /**
-   * Additional node rules, merged with default node rules.
-   */
-  nodeRules?: DummyRuleMap;
 
   /**
    * Whether to include react related rules
@@ -118,21 +83,11 @@ export interface ConfigOptions {
   react?: boolean;
 
   /**
-   * Additional react rules, merged with default react rules. Only effective when `react` is `true`.
-   */
-  reactRules?: DummyRuleMap;
-
-  /**
    * Whether to include vue related rules
    *
    * @default false
    */
   vue?: boolean;
-
-  /**
-   * Additional vue rules, merged with default vue rules. Only effective when `vue` is `true`.
-   */
-  vueRules?: DummyRuleMap;
 
   /**
    * Vitest related configuration.
@@ -146,8 +101,9 @@ export interface ConfigOptions {
    */
   vitest?: VitestScopeOptions | false;
 
-  vitestRules?: DummyRuleMap;
-
+  /**
+   * Additional vitest bench rules.
+   */
   vitestBenchRules?: DummyRuleMap;
 
   /**
@@ -162,47 +118,56 @@ export interface ConfigOptions {
 export const getOxlintConfigs = ({
   rules,
   ts = true,
-  tsRules,
   oxc = true,
-  oxcRules,
   import: importOption = true,
-  importRules,
   promise = true,
-  promiseRules,
   jsdoc = true,
-  jsdocRules,
   unicorn = true,
-  unicornRules,
   vitest = true,
-  vitestRules,
   vitestBenchRules,
   node = "default",
-  nodeRules,
   playwright,
   react,
-  reactRules,
   vue,
-  vueRules,
 }: ConfigOptions = {}): OxlintConfig[] => {
-  const results: OxlintConfig[] = [getCoreConfig({ rules })];
+  const splitRules = splitRulesByPrefix(rules ?? {});
 
-  if (ts) results.push(getTypeScriptConfig({ rules: tsRules }));
-  if (oxc) results.push(getOxcConfig({ rules: oxcRules }));
+  // Prefixes with no dedicated config should fallback to core
+  const coreWithFallback = {
+    ...splitRules.core,
+    ...splitRules.jest,
+    ...splitRules.nextjs,
+  };
 
-  if (importOption) results.push(getImportConfig({ rules: importRules }));
-  if (promise) results.push(getPromiseConfig({ rules: promiseRules }));
-  if (unicorn) results.push(getUnicornConfig({ rules: unicornRules }));
+  // React config merges react, react-perf, and jsx-a11y prefixed rules
+  const reactRules = {
+    ...splitRules.react,
+    ...splitRules["react-perf"],
+    ...splitRules["jsx-a11y"],
+  };
 
-  if (jsdoc) results.push(getJsdocConfig({ ts, rules: jsdocRules }));
+  const results: OxlintConfig[] = [getCoreConfig({ rules: coreWithFallback })];
+
+  if (ts) results.push(getTypeScriptConfig({ rules: splitRules.typescript }));
+  if (oxc) results.push(getOxcConfig({ rules: splitRules.oxc }));
+
+  if (importOption) results.push(getImportConfig({ rules: splitRules.import }));
+  if (promise) results.push(getPromiseConfig({ rules: splitRules.promise }));
+  if (unicorn) results.push(getUnicornConfig({ rules: splitRules.unicorn }));
+
+  if (jsdoc) results.push(getJsdocConfig({ ts, rules: splitRules.jsdoc }));
 
   // oxlint-disable-next-line typescript/strict-boolean-expressions
-  if (node) results.push(getNodeConfig({ rules: nodeRules }, node));
+  if (node) results.push(getNodeConfig({ rules: splitRules.node }, node));
 
   if (react) results.push(getReactConfig({ rules: reactRules }));
-  if (vue) results.push(getVueConfig({ rules: vueRules }));
+  if (vue) results.push(getVueConfig({ rules: splitRules.vue }));
   // oxlint-disable-next-line typescript/strict-boolean-expressions
   if (vitest)
-    results.push(getVitestConfig({ rules: vitestRules, benchRules: vitestBenchRules }, vitest));
+    // oxlint-disable-next-line curly
+    results.push(
+      getVitestConfig({ rules: splitRules.vitest, benchRules: vitestBenchRules }, vitest),
+    );
   // oxlint-disable-next-line typescript/strict-boolean-expressions
   if (playwright) results.push(getPlaywrightConfig(playwright));
 

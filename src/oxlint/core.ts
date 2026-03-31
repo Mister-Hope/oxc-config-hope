@@ -1,5 +1,5 @@
-import { defaultCategories } from "./categories.ts";
-import { defineConfig, defineRules, type DummyRuleMap, type OxlintConfig } from "./helper.ts";
+import { defineConfig, defineRules } from "./helper.ts";
+import type { DummyRuleMap, OxlintConfig } from "./helper.ts";
 
 /**
  * oxlint core rules
@@ -104,7 +104,6 @@ export interface CoreConfigOptions {
 
 export const getCoreConfig = ({ rules }: CoreConfigOptions = {}): OxlintConfig =>
   defineConfig({
-    categories: defaultCategories,
     plugins: ["eslint"],
     rules: {
       ...coreRules,

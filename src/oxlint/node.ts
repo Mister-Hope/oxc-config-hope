@@ -34,7 +34,7 @@ export interface NodeScopeConfig {
  *
  * By default, it includes common config files and cli/node files.
  */
-export type NodeScopeOptions = true | string | string[] | NodeScopeConfig;
+export type NodeScopeOptions = boolean | string | string[] | NodeScopeConfig;
 
 export interface NodeConfigOptions {
   /**
@@ -49,6 +49,36 @@ const DEFAULT_NODE_PATTERNS = [
   "**/{cli,node}/**/*.{js,ts}",
   "**/{cli,node}.{js,ts}",
 ];
+
+/**
+ * Convert node scope options to resolved patterns.
+ *
+ * @param scope - Node scope options
+ * @param defaults - Default patterns to use when not specified
+ * @returns Resolved object with global flag and patterns
+ */
+export const resolveNodeScope = (
+  scope?: NodeScopeOptions,
+  defaults: string[] = DEFAULT_NODE_PATTERNS,
+): { global: boolean; patterns: string[] } => {
+  if (scope === false) return { global: false, patterns: [] };
+  if (scope === true) return { global: true, patterns: [] };
+  if (typeof scope === "string" && scope !== "default") return { global: false, patterns: [scope] };
+  if (Array.isArray(scope)) return { global: false, patterns: scope };
+  if (typeof scope === "object" && scope != null) {
+    const global = scope.global ?? false;
+    const patterns = Array.isArray(scope.nodeFiles)
+      ? scope.nodeFiles
+      : scope.nodeFiles
+        ? [scope.nodeFiles]
+        : global
+          ? []
+          : defaults;
+    return { global, patterns };
+  }
+
+  return { global: false, patterns: defaults };
+};
 
 /**
  * Get node plugin config based on the provided options.
@@ -66,25 +96,9 @@ const DEFAULT_NODE_PATTERNS = [
  */
 export const getNodeConfig = (
   { rules }: NodeConfigOptions = {},
-  scope?: NodeScopeOptions,
+  scope: NodeScopeOptions = "default",
 ): OxlintConfig => {
-  let global = false;
-  let nodeFilePatterns: string[] = DEFAULT_NODE_PATTERNS;
-
-  if (scope === true) {
-    global = true;
-  } else if (typeof scope === "string" && scope !== "default") {
-    nodeFilePatterns = [scope];
-  } else if (Array.isArray(scope)) {
-    nodeFilePatterns = scope;
-  } else if (typeof scope === "object" && scope != null) {
-    global = scope.global ?? false;
-    nodeFilePatterns = Array.isArray(scope.nodeFiles)
-      ? scope.nodeFiles
-      : scope.nodeFiles
-        ? [scope.nodeFiles]
-        : DEFAULT_NODE_PATTERNS;
-  }
+  const { global, patterns } = resolveNodeScope(scope, DEFAULT_NODE_PATTERNS);
 
   if (global) {
     // enable node plugin globally
@@ -96,6 +110,8 @@ export const getNodeConfig = (
       },
     });
   }
+
+  if (!patterns.length) return defineConfig({});
 
   // enable node plugin for specific files
   return defineConfig({
@@ -136,7 +152,7 @@ export const getNodeConfig = (
       },
 
       {
-        files: nodeFilePatterns,
+        files: patterns,
         plugins: ["node"],
         rules: {
           ...nodeRules,

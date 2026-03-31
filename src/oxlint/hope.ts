@@ -1,5 +1,6 @@
 import type { OxlintOverride } from "oxlint";
 
+import { defaultCategories } from "./categories.ts";
 import { getOxlintConfigs } from "./config.ts";
 import type { ConfigOptions } from "./config.ts";
 import { defineConfig } from "./helper.ts";
@@ -15,10 +16,11 @@ export interface HopeConfigOptions extends ConfigOptions {
 
 export const defineHopeConfig = (
   options: HopeConfigOptions = {},
-  overrides: OxlintOverride[] = [],
+  ...overrides: OxlintOverride[]
 ): OxlintConfig =>
   defineConfig({
     extends: getOxlintConfigs(options),
+    categories: defaultCategories,
     ignorePatterns: [...defaultIgnorePatterns, ...(options.ignorePatterns ?? [])],
     options: {
       typeAware: true,

@@ -81,7 +81,7 @@ export interface VitestScopeConfig {
  *
  * By default, it includes common test file patterns and excludes bench files.
  */
-export type VitestScopeOptions = true | string | string[] | VitestScopeConfig;
+export type VitestScopeOptions = boolean | string | string[] | VitestScopeConfig;
 
 export interface VitestConfigOptions {
   /**
@@ -96,38 +96,49 @@ export interface VitestConfigOptions {
 const DEFAULT_VITEST_TEST_FILES = ["**/*.{spec,test}.{js,ts}", "**/*.{spec,test}-d.ts"];
 const DEFAULT_VITEST_BENCH_FILES = ["**/*.bench.{js,ts}"];
 
-export const getVitestConfig = (
-  options: VitestConfigOptions = {},
-  scope: VitestScopeOptions = {},
-): OxlintConfig => {
-  let testPatterns: string[] = DEFAULT_VITEST_TEST_FILES;
-  let benchPatterns: string[] | false = false;
-
-  if (typeof scope === "string") {
-    testPatterns = [scope];
-  } else if (Array.isArray(scope)) {
-    testPatterns = scope;
-  } else if (typeof scope === "object" && scope != null) {
-    testPatterns = Array.isArray(scope.tests)
-      ? scope.tests
-      : scope.tests
-        ? [scope.tests]
-        : DEFAULT_VITEST_TEST_FILES;
-    benchPatterns = Array.isArray(scope.bench)
-      ? scope.bench
-      : scope.bench === true
+/**
+ * Convert vitest scope options to resolved patterns.
+ *
+ * @param scope - Vitest scope options
+ * @returns Resolved object with test patterns and bench patterns
+ */
+export const resolveVitestScope = (
+  scope?: VitestScopeOptions,
+): { testPatterns: string[]; benchPatterns: string[] | false } => {
+  if (scope === false) return { testPatterns: [], benchPatterns: false };
+  if (typeof scope === "string") return { testPatterns: [scope], benchPatterns: false };
+  if (Array.isArray(scope)) return { testPatterns: scope, benchPatterns: false };
+  if (typeof scope === "object" && scope != null) {
+    const { tests, bench } = scope;
+    const testPatterns = Array.isArray(tests) ? tests : tests ? [tests] : DEFAULT_VITEST_TEST_FILES;
+    const benchPatterns = Array.isArray(bench)
+      ? bench
+      : bench === true
         ? DEFAULT_VITEST_BENCH_FILES
         : // oxlint-disable-next-line typescript/strict-boolean-expressions
-          scope.bench
-          ? [scope.bench]
+          bench
+          ? [bench]
           : false;
+    return { testPatterns, benchPatterns };
   }
+
+  return { testPatterns: DEFAULT_VITEST_TEST_FILES, benchPatterns: false };
+};
+
+export const getVitestConfig = (
+  options: VitestConfigOptions = {},
+  scope: VitestScopeOptions = true,
+): OxlintConfig => {
+  const { testPatterns, benchPatterns } = resolveVitestScope(scope);
+
+  if (!testPatterns.length && (benchPatterns === false || !benchPatterns.length))
+    return defineConfig({});
 
   return defineConfig({
     overrides: [
       {
         files: testPatterns,
-        plugins: ["vitest"],
+        plugins: ["eslint", "vitest"],
         rules: { ...vitestRules, ...options.rules },
       },
 

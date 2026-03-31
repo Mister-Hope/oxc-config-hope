@@ -28,7 +28,7 @@ export interface ReactConfigOptions {
  */
 export const getReactConfig = ({ rules = {} }: ReactConfigOptions = {}): OxlintConfig =>
   defineConfig({
-    plugins: ["react", "react-perf"],
+    plugins: ["react", "react-perf", "jsx-a11y"],
     rules: { ...reactRules, ...rules },
     overrides: [
       {
