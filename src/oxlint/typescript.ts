@@ -16,44 +16,44 @@ export const typescriptRules = defineRules({
   "typescript/no-invalid-void-type": "off",
   // enforce naming conventions
   // NOTE: not implemented yet by the moment: https://github.com/oxc-project/tsgolint/tree/main?tab=readme-ov-file#implemented-rules
-  "typescript/naming-convention": [
-    "warn",
-    [
-      { selector: "default", format: ["camelCase"] },
-      {
-        selector: "variable",
-        filter: { regex: "^__(?:dirname|filename)$", match: true },
-        format: null,
-      },
-      {
-        selector: "variable",
-        filter: {
-          regex: "^(?:_{0,2})[A-Z][A-z0-9]*(?:_[A-Z][A-z0-9]*)*$",
-          match: true,
-        },
-        format: null,
-      },
-      {
-        selector: ["variable"],
-        format: ["camelCase", "PascalCase", "UPPER_CASE"],
-        leadingUnderscore: "allow",
-      },
-      {
-        selector: ["parameter"],
-        format: ["camelCase", "PascalCase"],
-        leadingUnderscore: "allow",
-      },
-      {
-        selector: ["property"],
-        format: ["camelCase", "PascalCase", "UPPER_CASE"],
-        leadingUnderscore: "allow",
-        trailingUnderscore: "allow",
-      },
-      { selector: "import", format: ["PascalCase", "camelCase"] },
-      { selector: "typeLike", format: ["PascalCase"] },
-      { selector: "enumMember", format: ["PascalCase"] },
-    ],
-  ],
+  // "typescript/naming-convention": [
+  //   "warn",
+  //   [
+  //     { selector: "default", format: ["camelCase"] },
+  //     {
+  //       selector: "variable",
+  //       filter: { regex: "^__(?:dirname|filename)$", match: true },
+  //       format: null,
+  //     },
+  //     {
+  //       selector: "variable",
+  //       filter: {
+  //         regex: "^(?:_{0,2})[A-Z][A-z0-9]*(?:_[A-Z][A-z0-9]*)*$",
+  //         match: true,
+  //       },
+  //       format: null,
+  //     },
+  //     {
+  //       selector: ["variable"],
+  //       format: ["camelCase", "PascalCase", "UPPER_CASE"],
+  //       leadingUnderscore: "allow",
+  //     },
+  //     {
+  //       selector: ["parameter"],
+  //       format: ["camelCase", "PascalCase"],
+  //       leadingUnderscore: "allow",
+  //     },
+  //     {
+  //       selector: ["property"],
+  //       format: ["camelCase", "PascalCase", "UPPER_CASE"],
+  //       leadingUnderscore: "allow",
+  //       trailingUnderscore: "allow",
+  //     },
+  //     { selector: "import", format: ["PascalCase", "camelCase"] },
+  //     { selector: "typeLike", format: ["PascalCase"] },
+  //     { selector: "enumMember", format: ["PascalCase"] },
+  //   ],
+  // ],
   "typescript/parameter-properties": ["warn", { prefer: "parameter-property" }],
   // allow non-null assertions in some cases
   "typescript/strict-boolean-expressions": [
@@ -112,7 +112,7 @@ export const getTypeScriptConfig = ({ rules = {} }: TypeScriptConfigOptions = {}
           "typescript/consistent-return": "off",
           "typescript/consistent-type-exports": "off",
           "typescript/dot-notation": "off",
-          "typescript/naming-convention": "off",
+          // "typescript/naming-convention": "off",
           "typescript/no-array-delete": "off",
           "typescript/no-base-to-string": "off",
           "typescript/no-confusing-void-expression": "off",
@@ -145,7 +145,7 @@ export const getTypeScriptConfig = ({ rules = {} }: TypeScriptConfigOptions = {}
           "typescript/no-useless-default-assignment": "off",
           "typescript/non-nullable-type-assertion-style": "off",
           "typescript/only-throw-error": "off",
-          "typescript/prefer-destructuring": "off",
+          // "typescript/prefer-destructuring": "off",
           "typescript/prefer-find": "off",
           "typescript/prefer-includes": "off",
           "typescript/prefer-nullish-coalescing": "off",
