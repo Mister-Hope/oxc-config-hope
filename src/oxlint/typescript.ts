@@ -1,3 +1,4 @@
+import type { DummyRuleMap, OxlintConfig } from "./helper.ts";
 import { defineConfig, defineRules } from "./helper.ts";
 import { jsdocTypescriptRules } from "./jsdoc.ts";
 
@@ -73,100 +74,102 @@ export const typeScriptRelatedRules = defineRules({
   ...jsdocTypescriptRules,
 });
 
+export interface TypeScriptConfigOptions {
+  /**
+   * Additional typescript rules
+   */
+  rules?: DummyRuleMap;
+}
+
 /**
  * typescript config
+ *
+ * @param options TypeScriptConfigOptions
+ * @returns OxlintConfig
  */
-export const typescriptConfig = defineConfig({
-  plugins: ["typescript"],
-  rules: typescriptRules,
-  overrides: [
-    {
-      files: ["*.d.ts"],
-      rules: {
-        // to extend existing modules, import/export must not appear in declaration files at top level
-        "import/unambiguous": "off",
-        // we need `export {}` to convert a file to a module
-        "unicorn/require-module-specifiers": "off",
-      },
+export const getTypeScriptConfig = ({ rules = {} }: TypeScriptConfigOptions = {}): OxlintConfig =>
+  defineConfig({
+    plugins: ["typescript"],
+    rules: {
+      ...typescriptRules,
+      ...rules,
     },
+    overrides: [
+      {
+        files: ["*.d.ts"],
+        rules: {
+          // to extend existing modules, import/export must not appear in declaration files at top level
+          "import/unambiguous": "off",
+        },
+      },
 
-    // allow commonjs usage in cjs/cts files
-    {
-      files: ["*.cjs", "*.cts"],
-      rules: {
-        "no-require-imports": "off",
-        "import/no-commonjs": "off",
-        "import/unambiguous": "off",
+      // disable typescript types checking
+      // See: https://github.com/typescript-eslint/typescript-eslint/blob/main/packages/eslint-plugin/src/configs/eslintrc/disable-type-checked.ts
+      {
+        files: ["*.js", "*.jsx", "*.cjs", "*.mjs"],
+        rules: {
+          "typescript/await-thenable": "off",
+          "typescript/consistent-return": "off",
+          "typescript/consistent-type-exports": "off",
+          "typescript/dot-notation": "off",
+          "typescript/naming-convention": "off",
+          "typescript/no-array-delete": "off",
+          "typescript/no-base-to-string": "off",
+          "typescript/no-confusing-void-expression": "off",
+          "typescript/no-deprecated": "off",
+          "typescript/no-duplicate-type-constituents": "off",
+          "typescript/no-floating-promises": "off",
+          "typescript/no-for-in-array": "off",
+          "typescript/no-implied-eval": "off",
+          "typescript/no-meaningless-void-operator": "off",
+          "typescript/no-misused-promises": "off",
+          "typescript/no-misused-spread": "off",
+          "typescript/no-mixed-enums": "off",
+          "typescript/no-redundant-type-constituents": "off",
+          "typescript/no-unnecessary-boolean-literal-compare": "off",
+          "typescript/no-unnecessary-condition": "off",
+          "typescript/no-unnecessary-qualifier": "off",
+          "typescript/no-unnecessary-template-expression": "off",
+          "typescript/no-unnecessary-type-arguments": "off",
+          "typescript/no-unnecessary-type-assertion": "off",
+          "typescript/no-unnecessary-type-conversion": "off",
+          "typescript/no-unnecessary-type-parameters": "off",
+          "typescript/no-unsafe-argument": "off",
+          "typescript/no-unsafe-assignment": "off",
+          "typescript/no-unsafe-call": "off",
+          "typescript/no-unsafe-enum-comparison": "off",
+          "typescript/no-unsafe-member-access": "off",
+          "typescript/no-unsafe-return": "off",
+          "typescript/no-unsafe-type-assertion": "off",
+          "typescript/no-unsafe-unary-minus": "off",
+          "typescript/no-useless-default-assignment": "off",
+          "typescript/non-nullable-type-assertion-style": "off",
+          "typescript/only-throw-error": "off",
+          "typescript/prefer-destructuring": "off",
+          "typescript/prefer-find": "off",
+          "typescript/prefer-includes": "off",
+          "typescript/prefer-nullish-coalescing": "off",
+          "typescript/prefer-optional-chain": "off",
+          "typescript/prefer-promise-reject-errors": "off",
+          "typescript/prefer-readonly": "off",
+          "typescript/prefer-readonly-parameter-types": "off",
+          "typescript/prefer-reduce-type-parameter": "off",
+          "typescript/prefer-regexp-exec": "off",
+          "typescript/prefer-return-this-type": "off",
+          "typescript/prefer-string-starts-ends-with": "off",
+          "typescript/promise-function-async": "off",
+          "typescript/related-getter-setter-pairs": "off",
+          "typescript/require-array-sort-compare": "off",
+          "typescript/require-await": "off",
+          "typescript/restrict-plus-operands": "off",
+          "typescript/restrict-template-expressions": "off",
+          "typescript/return-await": "off",
+          "typescript/strict-boolean-expressions": "off",
+          "typescript/strict-void-return": "off",
+          "typescript/switch-exhaustiveness-check": "off",
+          "typescript/unbound-method": "off",
+          "typescript/use-unknown-in-catch-callback-variable": "off",
+        },
       },
-    },
-
-    // disable typescript types checking
-    // See: https://github.com/typescript-eslint/typescript-eslint/blob/main/packages/eslint-plugin/src/configs/eslintrc/disable-type-checked.ts
-    {
-      files: ["*.js", "*.jsx", "*.cjs", "*.mjs"],
-      rules: {
-        "typescript/await-thenable": "off",
-        "typescript/consistent-return": "off",
-        "typescript/consistent-type-exports": "off",
-        "typescript/dot-notation": "off",
-        "typescript/naming-convention": "off",
-        "typescript/no-array-delete": "off",
-        "typescript/no-base-to-string": "off",
-        "typescript/no-confusing-void-expression": "off",
-        "typescript/no-deprecated": "off",
-        "typescript/no-duplicate-type-constituents": "off",
-        "typescript/no-floating-promises": "off",
-        "typescript/no-for-in-array": "off",
-        "typescript/no-implied-eval": "off",
-        "typescript/no-meaningless-void-operator": "off",
-        "typescript/no-misused-promises": "off",
-        "typescript/no-misused-spread": "off",
-        "typescript/no-mixed-enums": "off",
-        "typescript/no-redundant-type-constituents": "off",
-        "typescript/no-unnecessary-boolean-literal-compare": "off",
-        "typescript/no-unnecessary-condition": "off",
-        "typescript/no-unnecessary-qualifier": "off",
-        "typescript/no-unnecessary-template-expression": "off",
-        "typescript/no-unnecessary-type-arguments": "off",
-        "typescript/no-unnecessary-type-assertion": "off",
-        "typescript/no-unnecessary-type-conversion": "off",
-        "typescript/no-unnecessary-type-parameters": "off",
-        "typescript/no-unsafe-argument": "off",
-        "typescript/no-unsafe-assignment": "off",
-        "typescript/no-unsafe-call": "off",
-        "typescript/no-unsafe-enum-comparison": "off",
-        "typescript/no-unsafe-member-access": "off",
-        "typescript/no-unsafe-return": "off",
-        "typescript/no-unsafe-type-assertion": "off",
-        "typescript/no-unsafe-unary-minus": "off",
-        "typescript/no-useless-default-assignment": "off",
-        "typescript/non-nullable-type-assertion-style": "off",
-        "typescript/only-throw-error": "off",
-        "typescript/prefer-destructuring": "off",
-        "typescript/prefer-find": "off",
-        "typescript/prefer-includes": "off",
-        "typescript/prefer-nullish-coalescing": "off",
-        "typescript/prefer-optional-chain": "off",
-        "typescript/prefer-promise-reject-errors": "off",
-        "typescript/prefer-readonly": "off",
-        "typescript/prefer-readonly-parameter-types": "off",
-        "typescript/prefer-reduce-type-parameter": "off",
-        "typescript/prefer-regexp-exec": "off",
-        "typescript/prefer-return-this-type": "off",
-        "typescript/prefer-string-starts-ends-with": "off",
-        "typescript/promise-function-async": "off",
-        "typescript/related-getter-setter-pairs": "off",
-        "typescript/require-array-sort-compare": "off",
-        "typescript/require-await": "off",
-        "typescript/restrict-plus-operands": "off",
-        "typescript/restrict-template-expressions": "off",
-        "typescript/return-await": "off",
-        "typescript/strict-boolean-expressions": "off",
-        "typescript/strict-void-return": "off",
-        "typescript/switch-exhaustiveness-check": "off",
-        "typescript/unbound-method": "off",
-        "typescript/use-unknown-in-catch-callback-variable": "off",
-      },
-    },
-  ],
-});
+    ],
+  });

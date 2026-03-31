@@ -1,27 +1,32 @@
 import { coreConfig } from "./core.ts";
-import type { OxlintConfig } from "./helper.ts";
-import { importConfig } from "./import.ts";
+import type { DummyRuleMap, OxlintConfig } from "./helper.ts";
+import { getImportConfig } from "./import.ts";
 import { getJsdocConfig } from "./jsdoc.ts";
 import { getNodeConfig } from "./node.ts";
-import type { NodeConfigOptions, NodeSimpleOptions } from "./node.ts";
-import { oxcConfig } from "./oxc.ts";
+import type { NodeScopeOptions } from "./node.ts";
+import { getOxcConfig } from "./oxc.ts";
 import { getPlaywrightConfig } from "./playwright.ts";
 import type { PlaywrightSimpleOptions } from "./playwright.ts";
-import { promiseConfig } from "./promise.ts";
-import { reactConfig } from "./react.ts";
-import { typescriptConfig } from "./typescript.ts";
-import { unicornConfig } from "./unicorn.ts";
+import { getPromiseConfig } from "./promise.ts";
+import { getReactConfig } from "./react.ts";
+import { getTypeScriptConfig } from "./typescript.ts";
+import { getUnicornConfig } from "./unicorn.ts";
 import { getVitestConfig } from "./vitest.ts";
-import type { VitestSimpleOptions, VitestConfigOptions } from "./vitest.ts";
-import { vueConfig } from "./vue.ts";
+import type { VitestScopeOptions } from "./vitest.ts";
+import { getVueConfig } from "./vue.ts";
 
 export interface ConfigOptions {
   /**
-   * Whether to include jsdoc related rules
+   * Whether to include typescript related rules
    *
    * @default true
    */
-  jsdoc?: boolean;
+  ts?: boolean;
+
+  /**
+   * Additional typescript rules, merged with default typescript rules.
+   */
+  tsRules?: DummyRuleMap;
 
   /**
    * Whether to include import related rules
@@ -31,11 +36,33 @@ export interface ConfigOptions {
   import?: boolean;
 
   /**
-   * Whether to include oxc related rules
+   * Additional import rules, merged with default import rules.
+   */
+  importRules?: DummyRuleMap;
+
+  /**
+   * Whether to include jsdoc related rules
+   *
+   * @default true
+   */
+  jsdoc?: boolean;
+
+  /**
+   * Additional jsdoc rules, merged with default jsdoc rules.
+   */
+  jsdocRules?: DummyRuleMap;
+
+  /**
+   * Additional oxc rules
    *
    * @default true
    */
   oxc?: boolean;
+
+  /**
+   * Additional oxc rules, merged with default oxc rules.
+   */
+  oxcRules?: DummyRuleMap;
 
   /**
    * Whether to include promise related rules
@@ -45,6 +72,11 @@ export interface ConfigOptions {
   promise?: boolean;
 
   /**
+   * Additional promise rules, merged with default promise rules.
+   */
+  promiseRules?: DummyRuleMap;
+
+  /**
    * Whether to include unicorn related rules
    *
    * @default true
@@ -52,11 +84,9 @@ export interface ConfigOptions {
   unicorn?: boolean;
 
   /**
-   * Whether to include typescript related rules
-   *
-   * @default true
+   * Additional unicorn rules, merged with default unicorn rules.
    */
-  typescript?: boolean;
+  unicornRules?: DummyRuleMap;
 
   /**
    * Node related configuration.
@@ -68,7 +98,12 @@ export interface ConfigOptions {
    *
    * By default, it includes common config files and cli/node files.
    */
-  node?: NodeConfigOptions | NodeSimpleOptions;
+  node?: NodeScopeOptions;
+
+  /**
+   * Additional node rules, merged with default node rules.
+   */
+  nodeRules?: DummyRuleMap;
 
   /**
    * Whether to include react related rules
@@ -78,11 +113,21 @@ export interface ConfigOptions {
   react?: boolean;
 
   /**
+   * Additional react rules, merged with default react rules. Only effective when `react` is `true`.
+   */
+  reactRules?: DummyRuleMap;
+
+  /**
    * Whether to include vue related rules
    *
    * @default false
    */
   vue?: boolean;
+
+  /**
+   * Additional vue rules, merged with default vue rules. Only effective when `vue` is `true`.
+   */
+  vueRules?: DummyRuleMap;
 
   /**
    * Vitest related configuration.
@@ -94,7 +139,11 @@ export interface ConfigOptions {
    *
    * By default, it includes common test file patterns and excludes bench files.
    */
-  vitest?: VitestConfigOptions | VitestSimpleOptions;
+  vitest?: VitestScopeOptions | false;
+
+  vitestRules?: DummyRuleMap;
+
+  vitestBenchRules?: DummyRuleMap;
 
   /**
    * Whether to include playwright related rules
@@ -105,35 +154,48 @@ export interface ConfigOptions {
 }
 
 export const getOxlintConfigs = ({
-  typescript = true,
-  jsdoc = true,
-  import: importOption = true,
+  ts = true,
+  tsRules,
   oxc = true,
+  oxcRules,
+  import: importOption = true,
+  importRules,
   promise = true,
+  promiseRules,
+  jsdoc = true,
+  jsdocRules,
   unicorn = true,
+  unicornRules,
   vitest = true,
+  vitestRules,
+  vitestBenchRules,
   node,
+  nodeRules,
   playwright,
   react,
+  reactRules,
   vue,
+  vueRules,
 }: ConfigOptions = {}): OxlintConfig[] => {
   const results: OxlintConfig[] = [coreConfig];
 
-  if (importOption) results.push(importConfig);
-  if (oxc) results.push(oxcConfig);
-  if (promise) results.push(promiseConfig);
-  if (unicorn) results.push(unicornConfig);
+  if (ts) results.push(getTypeScriptConfig({ rules: tsRules }));
+  if (oxc) results.push(getOxcConfig({ rules: oxcRules }));
 
-  const nodeConfig = getNodeConfig(node);
+  if (importOption) results.push(getImportConfig({ rules: importRules }));
+  if (promise) results.push(getPromiseConfig({ rules: promiseRules }));
+  if (unicorn) results.push(getUnicornConfig({ rules: unicornRules }));
 
-  if (Object.keys(nodeConfig).length > 0) results.push(nodeConfig);
+  if (jsdoc) results.push(getJsdocConfig({ ts, rules: jsdocRules }));
 
-  if (typescript) results.push(typescriptConfig);
-  if (jsdoc) results.push(getJsdocConfig({ typescript }));
-  if (react) results.push(reactConfig);
-  if (vue) results.push(vueConfig);
   // oxlint-disable-next-line typescript/strict-boolean-expressions
-  if (vitest) results.push(getVitestConfig(vitest));
+  if (node) results.push(getNodeConfig({ rules: nodeRules }, node));
+
+  if (react) results.push(getReactConfig({ rules: reactRules }));
+  if (vue) results.push(getVueConfig({ rules: vueRules }));
+  // oxlint-disable-next-line typescript/strict-boolean-expressions
+  if (vitest)
+    results.push(getVitestConfig({ rules: vitestRules, benchRules: vitestBenchRules }, vitest));
   // oxlint-disable-next-line typescript/strict-boolean-expressions
   if (playwright) results.push(getPlaywrightConfig(playwright));
 

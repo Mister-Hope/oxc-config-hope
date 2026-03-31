@@ -1,4 +1,5 @@
 import { defineConfig, defineRules } from "./helper.ts";
+import type { DummyRuleMap, OxlintConfig } from "./helper.ts";
 
 /**
  * import plugin rules
@@ -22,7 +23,25 @@ export const importRules = defineRules({
   "import/prefer-default-export": "off",
 });
 
-export const importConfig = defineConfig({
-  plugins: ["import"],
-  rules: importRules,
-});
+export interface ImportConfigOptions {
+  /**
+   * Additional rules for import related rules.
+   */
+  rules?: DummyRuleMap;
+}
+
+export const getImportConfig = ({ rules = {} }: ImportConfigOptions = {}): OxlintConfig =>
+  defineConfig({
+    plugins: ["import"],
+    rules: { ...importRules, ...rules },
+    overrides: [
+      // allow commonjs usage in cjs files
+      {
+        files: ["*.cjs", "*.cts"],
+        rules: {
+          "import/no-commonjs": "off",
+          "import/unambiguous": "off",
+        },
+      },
+    ],
+  });

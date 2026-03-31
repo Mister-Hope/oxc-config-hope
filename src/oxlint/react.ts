@@ -1,4 +1,5 @@
 import { defineConfig, defineRules } from "./helper.ts";
+import type { DummyRuleMap, OxlintConfig } from "./helper.ts";
 
 /**
  * react plugin rules
@@ -13,20 +14,33 @@ export const reactRules = defineRules({
   "react/react-in-jsx-scope": "off",
 });
 
-export const reactConfig = defineConfig({
-  plugins: ["react", "react-perf"],
-  rules: reactRules,
-  overrides: [
-    {
-      files: ["*.{jsx,tsx}"],
-      rules: {
-        // disable jsdoc rules in react components
-        "jsdoc/require-param": "off",
-        // disable jsdoc rules in react components
-        "jsdoc/require-returns": "off",
-        // allow loose boolean expressions in react components
-        "typescript/strict-boolean-expressions": "off",
+export interface ReactConfigOptions {
+  /**
+   * Additional react rules
+   */
+  rules?: DummyRuleMap;
+}
+
+/**
+ * react plugin config
+ *
+ * @returns OxlintConfig
+ */
+export const getReactConfig = ({ rules = {} }: ReactConfigOptions = {}): OxlintConfig =>
+  defineConfig({
+    plugins: ["react", "react-perf"],
+    rules: { ...reactRules, ...rules },
+    overrides: [
+      {
+        files: ["*.{jsx,tsx}"],
+        rules: {
+          // disable jsdoc rules in react components
+          "jsdoc/require-param": "off",
+          // disable jsdoc rules in react components
+          "jsdoc/require-returns": "off",
+          // allow loose boolean expressions in react components
+          "typescript/strict-boolean-expressions": "off",
+        },
       },
-    },
-  ],
-});
+    ],
+  });

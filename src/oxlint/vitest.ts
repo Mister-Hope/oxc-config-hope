@@ -1,4 +1,6 @@
-import type { OxlintConfig } from "./helper.ts";
+import type { OxlintOverride } from "oxlint";
+
+import type { DummyRuleMap, OxlintConfig } from "./helper.ts";
 import { defineConfig, defineRules } from "./helper.ts";
 
 /**
@@ -22,8 +24,17 @@ export const vitestRules = defineRules({
 
   // allow @ts-ignore and @ts-expect-error in tests
   "typescript/ban-ts-comment": "off",
+  // allow void expressions in tests, e.g.: check a void function returns undefined
+  "typescript/no-confusing-void-expression": "off",
   // allow non-null assertions in tests
   "typescript/no-non-null-assertion": "off",
+  // the following rules are often too restrictive for tests,
+  // which usually have more flexible coding style and may need to use any type for testing various edge cases.
+  "typescript/no-explicit-any": "off",
+  "typescript/no-unsafe-assignment": "off",
+  "typescript/no-unsafe-member-access": "off",
+  "typescript/unbound-method": "off",
+
   // allow @ts-ignore for untyped modules
   "typescript/prefer-ts-expect-error": "off",
   "typescript/require-array-sort-compare": "off",
@@ -49,7 +60,7 @@ export const vitestRules = defineRules({
 /**
  * Vitest related configuration.
  */
-export interface VitestConfigOptions {
+export interface VitestScopeConfig {
   /**
    * test files pattern
    */
@@ -70,47 +81,66 @@ export interface VitestConfigOptions {
  *
  * By default, it includes common test file patterns and excludes bench files.
  */
-export type VitestSimpleOptions = boolean | string | string[];
+export type VitestScopeOptions = true | string | string[] | VitestScopeConfig;
+
+export interface VitestConfigOptions {
+  /**
+   * Additional vitest rules, merged with default vitest rules.
+   *
+   */
+  rules?: DummyRuleMap;
+
+  benchRules?: DummyRuleMap;
+}
 
 const DEFAULT_VITEST_TEST_FILES = ["**/*.{spec,test}.{js,ts}", "**/*.{spec,test}-d.ts"];
 const DEFAULT_VITEST_BENCH_FILES = ["**/*.bench.{js,ts}"];
 
 export const getVitestConfig = (
-  options: VitestConfigOptions | VitestSimpleOptions = {},
+  options: VitestConfigOptions = {},
+  scope: VitestScopeOptions = {},
 ): OxlintConfig => {
-  if (options === false) return defineConfig({});
-
   let testPatterns: string[] = DEFAULT_VITEST_TEST_FILES;
   let benchPatterns: string[] | false = false;
 
-  if (typeof options === "string") {
-    testPatterns = [options];
-  } else if (Array.isArray(options)) {
-    testPatterns = options;
-  } else if (typeof options === "object" && options != null) {
-    testPatterns = Array.isArray(options.tests)
-      ? options.tests
-      : options.tests
-        ? [options.tests]
+  if (typeof scope === "string") {
+    testPatterns = [scope];
+  } else if (Array.isArray(scope)) {
+    testPatterns = scope;
+  } else if (typeof scope === "object" && scope != null) {
+    testPatterns = Array.isArray(scope.tests)
+      ? scope.tests
+      : scope.tests
+        ? [scope.tests]
         : DEFAULT_VITEST_TEST_FILES;
-    benchPatterns = Array.isArray(options.bench)
-      ? options.bench
-      : options.bench === true
+    benchPatterns = Array.isArray(scope.bench)
+      ? scope.bench
+      : scope.bench === true
         ? DEFAULT_VITEST_BENCH_FILES
         : // oxlint-disable-next-line typescript/strict-boolean-expressions
-          options.bench
-          ? [options.bench]
+          scope.bench
+          ? [scope.bench]
           : false;
   }
 
   return defineConfig({
     overrides: [
       {
-        // oxlint-disable-next-line typescript/strict-boolean-expressions
-        files: benchPatterns ? [...testPatterns, ...benchPatterns] : testPatterns,
+        files: testPatterns,
         plugins: ["vitest"],
-        rules: vitestRules,
+        rules: { ...vitestRules, ...options.rules },
       },
+
+      // oxlint-disable-next-line typescript/strict-boolean-expressions
+      ...(benchPatterns
+        ? [
+            {
+              files: benchPatterns,
+              plugins: ["vitest"],
+              rules: { ...vitestRules, ...options.rules, ...options.benchRules },
+            } as OxlintOverride,
+          ]
+        : []),
     ],
   });
 };

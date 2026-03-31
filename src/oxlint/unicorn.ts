@@ -1,4 +1,5 @@
 import { defineConfig, defineRules } from "./helper.ts";
+import type { DummyRuleMap, OxlintConfig } from "./helper.ts";
 
 /**
  * unicorn plugin rules
@@ -32,19 +33,41 @@ export const unicornRules = defineRules({
   "unicorn/prefer-global-this": "warn",
   // ternary with multiple lines is usually less readable than if-else statement
   "unicorn/prefer-ternary": ["warn", "only-single-line"],
-  // prefer utf-8 over utf8
-  "unicorn/text-encoding-identifier-case": ["error", { withDash: true }],
+  // this will introduce a lot of false positives
+  "unicorn/text-encoding-identifier-case": "off",
 });
 
-export const unicornConfig = defineConfig({
-  plugins: ["unicorn"],
-  rules: unicornRules,
-  overrides: [
-    {
-      files: ["**/worker/**/*.{js,ts}", "*.worker.{js,ts}", "worker.{js,ts}"],
-      rules: {
-        "unicorn/require-post-message-target-origin": "off",
+export interface UnicornConfigOptions {
+  /**
+   * Additional unicorn rules
+   */
+  rules?: DummyRuleMap;
+}
+
+/**
+ * unicorn plugin config
+ *
+ * @returns OxlintConfig
+ */
+export const getUnicornConfig = ({ rules = {} }: UnicornConfigOptions = {}): OxlintConfig =>
+  defineConfig({
+    plugins: ["unicorn"],
+    rules: { ...unicornRules, ...rules },
+    overrides: [
+      {
+        files: ["**/worker/**/*.{js,ts}", "*.worker.{js,ts}", "worker.{js,ts}"],
+        rules: {
+          // targetOrigin is not supported in workers' postMessage
+          "unicorn/require-post-message-target-origin": "off",
+        },
       },
-    },
-  ],
-});
+
+      {
+        files: ["*.ts", "*.cts", "*.mts"],
+        rules: {
+          // we need `export {}` to convert a file to a module
+          "unicorn/require-module-specifiers": "off",
+        },
+      },
+    ],
+  });

@@ -1,5 +1,5 @@
 import { defineConfig, defineRules } from "./helper.ts";
-import type { OxlintConfig } from "./helper.ts";
+import type { DummyRuleMap, OxlintConfig } from "./helper.ts";
 
 /**
  * jsdoc plugin rules
@@ -24,21 +24,27 @@ export const jsdocTypescriptRules = defineRules({
 
 export interface JsdocConfigOptions {
   /**
+   * Additional js doc rules
+   */
+  rules?: DummyRuleMap;
+
+  /**
    * Whether to include typescript related jsdoc rules
    *
    * @default true
    */
-  typescript?: boolean;
+  ts?: boolean;
 }
 
 /**
  * @returns jsdoc config
  */
-export const getJsdocConfig = ({ typescript = true }: JsdocConfigOptions = {}): OxlintConfig =>
+export const getJsdocConfig = ({ rules, ts = true }: JsdocConfigOptions = {}): OxlintConfig =>
   defineConfig({
     plugins: ["jsdoc"],
     rules: {
       ...jsdocRules,
-      ...(typescript ? jsdocTypescriptRules : {}),
+      ...(ts ? jsdocTypescriptRules : {}),
+      ...rules,
     },
   });

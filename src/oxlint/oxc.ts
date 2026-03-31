@@ -1,4 +1,5 @@
 import { defineConfig, defineRules } from "./helper.ts";
+import type { DummyRuleMap, OxlintConfig } from "./helper.ts";
 
 /**
  * oxc plugin rules
@@ -12,10 +13,20 @@ export const oxcRules = defineRules({
   "oxc/no-async-await": "off",
 });
 
+export interface OxcConfigOptions {
+  /**
+   * Additional oxc rules
+   */
+  rules?: DummyRuleMap;
+}
+
 /**
  * oxc plugin config
+ *
+ * @returns OxlintConfig
  */
-export const oxcConfig = defineConfig({
-  plugins: ["oxc"],
-  rules: oxcRules,
-});
+export const getOxcConfig = ({ rules = {} }: OxcConfigOptions = {}): OxlintConfig =>
+  defineConfig({
+    plugins: ["oxc"],
+    rules: { ...oxcRules, ...rules },
+  });

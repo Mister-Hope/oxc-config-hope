@@ -102,4 +102,13 @@ export const coreConfig = defineConfig({
     ...coreRules,
     ...stylisticRules,
   },
+  overrides: [
+    // allow commonjs usage in cjs files
+    {
+      files: ["*.cjs", "*.cts"],
+      rules: {
+        "no-require-imports": "off",
+      },
+    },
+  ],
 });
