@@ -55,6 +55,8 @@ export const typescriptRules = defineRules({
   //   ],
   // ],
   "typescript/parameter-properties": ["warn", { prefer: "parameter-property" }],
+  // we prefer performance first
+  "typescript/prefer-string-starts-ends-with": ["warn", { allowSingleElementEquality: "always" }],
   // allow non-null assertions in some cases
   "typescript/strict-boolean-expressions": [
     "warn",
