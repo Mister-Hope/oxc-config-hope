@@ -11,7 +11,7 @@ export interface HopeConfigOptions extends ConfigOptions {
   /**
    * Glob patterns for files to ignore. It supports the same syntax as .eslintignore.
    */
-  ignorePatterns?: string[];
+  ignore?: string[];
 }
 
 export const defineHopeConfig = (
@@ -21,7 +21,7 @@ export const defineHopeConfig = (
   defineConfig({
     extends: getOxlintConfigs(options),
     categories: defaultCategories,
-    ignorePatterns: [...defaultIgnorePatterns, ...(options.ignorePatterns ?? [])],
+    ignorePatterns: [...defaultIgnorePatterns, ...(options.ignore ?? [])],
     options: {
       typeAware: true,
       typeCheck: true,
