@@ -6,6 +6,8 @@ export const defineHopeConfig = ({ ignorePatterns = [], ...rest }: OxfmtConfig =
   defineConfig({
     ignorePatterns: [...defaultIgnorePatterns, ...ignorePatterns],
 
+    jsdoc: true,
+
     sortPackageJson: {
       sortScripts: true,
     },
