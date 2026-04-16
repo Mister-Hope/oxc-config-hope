@@ -28,6 +28,15 @@ export const getPlaywrightConfig = (options?: PlaywrightSimpleOptions): OxlintCo
       {
         files: playwrightPatterns,
         rules: {
+          // stylistic rules
+          "id-length": "off",
+          "max-classes-per-file": "off",
+          "max-lines-per-function": "off",
+          "max-lines": "off",
+          "max-statements": "off",
+          "no-empty-function": "off",
+          "no-undefined": "off",
+
           // e2e tests navigation and locators are async
           "no-await-in-loop": "off",
         },
