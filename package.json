@@ -47,7 +47,7 @@
     "@mr-hope/tsconfig": "0.0.3",
     "publint": "0.3.18",
     "tsdown": "0.21.7",
-    "typescript": "6.0.2",
+    "typescript": "6.0.3",
     "vitest": "4.1.4"
   },
   "peerDependencies": {
