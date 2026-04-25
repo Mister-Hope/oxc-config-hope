@@ -44,7 +44,7 @@
     "test": "vitest"
   },
   "devDependencies": {
-    "@mr-hope/tsconfig": "0.0.3",
+    "@mr-hope/tsconfig": "0.0.4",
     "publint": "0.3.18",
     "tsdown": "0.21.7",
     "typescript": "6.0.2",
