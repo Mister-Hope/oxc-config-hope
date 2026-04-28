@@ -44,6 +44,7 @@ export const vitestRules = defineRules({
   // we may implicit use func(undefined) in tests, this will be considered useless
   "unicorn/no-useless-undefined": "off",
 
+  // set test file naming rules
   "vitest/consistent-test-filename": [
     "warn",
     {
@@ -51,13 +52,24 @@ export const vitestRules = defineRules({
       pattern: ".*\\.((bench|spec)\\.[tj]sx?|spec-d\\.ts)$",
     },
   ],
+  // limit the number of expects in a test
+  "vitest/max-expects": ["warn", { max: 8 }],
+  // we prefer importing vitest apis implicitly from 'vitest'
   "vitest/no-importing-vitest-globals": "off",
+  // we prefer vitest/prefer-called-times to vitest/prefer-called-once for better readability
   "vitest/prefer-called-once": "off",
+  // we prefer to check this manually, rather than adding expect.assertions() everywhere
+  "vitest/prefer-expect-assertions": "off",
+  // .toBe(false) is stricter than .toBeFalsy()
   "vitest/prefer-to-be-falsy": "off",
+  // .toBe(true) is stricter than .toBeTruthy()
   "vitest/prefer-to-be-truthy": "off",
   // we may need to check truthy and falsy values in tests, so we don't enforce strict boolean matchers
   "vitest/prefer-strict-boolean-matchers": "off",
+  // performance should be considered in bench files, but not test files, so we don't enforce timeout in tests
   "vitest/require-test-timeout": "off",
+  // vitest allows test titles to be functions, so we don't enforce string titles
+  "vitest/valid-title": "off",
 });
 
 /**
