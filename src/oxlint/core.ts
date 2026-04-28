@@ -42,6 +42,8 @@ export const coreRules = defineRules({
   "no-ternary": "off",
   // _ is commonly used as a placeholder variable name
   "no-shadow": ["warn", { allow: ["_"] }],
+  // allow __dirname and __filename usage in node environment
+  "no-underscore-dangle": ["warn", { allow: ["__dirname", "__filename"] }],
   // allow using variables before their declaration, as long as they are not used in their initializers
   "no-use-before-define": ["warn", { allowNamedExports: true }],
   // we use void operator to mark those promise that shall not be awaited
