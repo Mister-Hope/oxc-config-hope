@@ -1,4 +1,7 @@
 export const defaultIgnorePatterns = [
+  // node modules
+  "**/node_modules/**",
+
   // common build output folder
   "**/dist/**",
   // test coverage
