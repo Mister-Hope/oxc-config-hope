@@ -60,6 +60,8 @@ export const vitestRules = defineRules({
   "vitest/prefer-called-once": "off",
   // we prefer to check this manually, rather than adding expect.assertions() everywhere
   "vitest/prefer-expect-assertions": "off",
+  // the default level is error
+  "vitest/prefer-snapshot-hint": "warn",
   // .toBe(false) is stricter than .toBeFalsy()
   "vitest/prefer-to-be-falsy": "off",
   // .toBe(true) is stricter than .toBeTruthy()
@@ -69,7 +71,7 @@ export const vitestRules = defineRules({
   // performance should be considered in bench files, but not test files, so we don't enforce timeout in tests
   "vitest/require-test-timeout": "off",
   // vitest allows test titles to be functions, so we don't enforce string titles
-  "vitest/valid-title": "off",
+  "vitest/valid-title": ["warn", { allowArguments: true }],
 });
 
 /**
