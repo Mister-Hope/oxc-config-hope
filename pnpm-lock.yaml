@@ -22,11 +22,11 @@ importers:
         specifier: 0.0.4
         version: 0.0.4(typescript@6.0.3)
       publint:
-        specifier: 0.3.19
-        version: 0.3.19
+        specifier: 0.3.21
+        version: 0.3.21
       tsdown:
         specifier: 0.21.10
-        version: 0.21.10(publint@0.3.19)(typescript@6.0.3)
+        version: 0.21.10(publint@0.3.21)(typescript@6.0.3)
       typescript:
         specifier: 6.0.3
         version: 6.0.3
@@ -831,8 +831,8 @@ packages:
     resolution: {integrity: sha512-W62t/Se6rA0Az3DfCL0AqJwXuKwBeYg6nOaIgzP+xZ7N5BFCI7DYi1qs6ygUYT6rvfi6t9k65UMLJC+PHZpDAA==}
     engines: {node: ^10 || ^12 || >=14}
 
-  publint@0.3.19:
-    resolution: {integrity: sha512-J3p4GOocCRFyLLFRzGfIhAwWgk0Kkcdxj5iFspFvCYbyiJs5IhCM8gsIkcNeQL+tdpV671RtJQiTFSUKhl1Wjg==}
+  publint@0.3.21:
+    resolution: {integrity: sha512-OqejcnMV6E9zel2oCrUOJEiiFkGiAAni0A6ibfQNh1k9Gu5z4F+Yso8lllam7AzmV6Do0vp7u3UpZNRBwuXaHQ==}
     engines: {node: '>=18'}
     hasBin: true
 
@@ -1603,7 +1603,7 @@ snapshots:
       picocolors: 1.1.1
       source-map-js: 1.2.1
 
-  publint@0.3.19:
+  publint@0.3.21:
     dependencies:
       '@publint/pack': 0.1.4
       package-manager-detector: 1.6.0
@@ -1706,7 +1706,7 @@ snapshots:
 
   tree-kill@1.2.2: {}
 
-  tsdown@0.21.10(publint@0.3.19)(typescript@6.0.3):
+  tsdown@0.21.10(publint@0.3.21)(typescript@6.0.3):
     dependencies:
       ansis: 4.2.0
       cac: 7.0.0
@@ -1725,7 +1725,7 @@ snapshots:
       unconfig-core: 7.5.0
       unrun: 0.2.37
     optionalDependencies:
-      publint: 0.3.19
+      publint: 0.3.21
       typescript: 6.0.3
     transitivePeerDependencies:
       - '@ts-macro/tsc'
