@@ -15,6 +15,7 @@ export const vitestRules = defineRules({
   "max-statements": "off",
   "no-empty-function": "off",
   "no-undefined": "off",
+  "no-underscore-dangle": "off",
 
   // vitest polyfills __dirname and __filename
   "prefer-module": "off",

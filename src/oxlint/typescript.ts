@@ -7,6 +7,17 @@ import { jsdocTypescriptRules } from "./jsdoc.ts";
  */
 export const typescriptRules = defineRules({
   // typescript plugin rules
+  // we prefer explicit protected/private accessibility modifiers, but omit public if possible
+  "typescript/explicit-member-accessibility": [
+    "warn",
+    {
+      accessibility: "no-public",
+      overrides: {
+        parameterProperties: "explicit",
+      },
+    },
+  ],
+
   // shall be disabled with isolateDeclarations: true since type that can be inferred
   // will be required to be explicitly declared
   "typescript/no-inferrable-types": "off",
