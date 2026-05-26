@@ -1,0 +1,10 @@
+configDependencies:
+  pacquet: "^0.2.9"
+
+enableGlobalVirtualStore: true
+
+trustPolicy: no-downgrade
+
+# FIXME: https://github.com/pnpm/pnpm/issues/11887
+trustPolicyExclude:
+  - tinyexec@1.2.2
