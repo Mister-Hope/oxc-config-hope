@@ -1,6 +1,8 @@
 import { defineConfig, defineRules } from "./helper.ts";
 import type { DummyRuleMap, OxlintConfig } from "./helper.ts";
 
+export const defaultUnderScoreDangleAllow = ["__dirname", "__filename"];
+
 /**
  * oxlint core rules
  */
@@ -43,7 +45,7 @@ export const coreRules = defineRules({
   // _ is commonly used as a placeholder variable name
   "no-shadow": ["warn", { allow: ["_"] }],
   // allow __dirname and __filename usage in node environment
-  "no-underscore-dangle": ["warn", { allow: ["__dirname", "__filename"] }],
+  "no-underscore-dangle": ["warn", { allow: defaultUnderScoreDangleAllow }],
   // allow using variables before their declaration, as long as they are not used in their initializers
   "no-use-before-define": ["warn", { allowNamedExports: true }],
   // we use void operator to mark those promise that shall not be awaited
