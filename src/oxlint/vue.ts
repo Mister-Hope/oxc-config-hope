@@ -34,6 +34,8 @@ export const getVueConfig = ({ rules = {} }: VueConfigOptions = {}): OxlintConfi
             "warn",
             { max: 300, skipBlankLines: true, skipComments: true },
           ],
+          // h() calls can be nested deeply in vue components
+          "unicorn/max-nested-calls": "off",
         },
       },
     ],
