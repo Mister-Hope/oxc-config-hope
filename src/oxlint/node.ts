@@ -4,6 +4,8 @@ import { defineConfig, defineRules } from "./helper.ts";
 export const nodeRules = defineRules({
   // allow importing node built-in modules in config files and scripts
   "import/no-nodejs-modules": "off",
+  // allow using synchronous methods in config files and scripts
+  "node/no-sync": "off",
 });
 
 /**

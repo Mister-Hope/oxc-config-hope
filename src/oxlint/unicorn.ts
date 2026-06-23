@@ -10,6 +10,8 @@ export const unicornRules = defineRules({
   "unicorn/filename-case": "off",
   // this rule introduce too many false positives
   "unicorn/explicit-length-check": "off",
+  // disallow named exports from upath, this keeps consistency with node path module
+  "unicorn/import-style": ["warn", { styles: { upath: { default: true, named: false } } }],
   // sometimes we do need to use reduce for better readability
   "unicorn/no-array-reduce": "off",
   // toReversed can introduce memory overhead,
