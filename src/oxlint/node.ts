@@ -128,7 +128,7 @@ export const getNodeConfig = (
           // scripts files shall be allowed to access process.env
           "node/no-process-env": "off",
           // top-level await should be allowed in scripts
-          'node/no-top-level-await': 'off',
+          "node/no-top-level-await": "off",
           ...nodeRules,
           ...rules,
         },
@@ -142,7 +142,7 @@ export const getNodeConfig = (
           // config files shall be allowed to access process.env
           "node/no-process-env": "off",
           // top-level await should be allowed in config files
-          'node/no-top-level-await': 'off',
+          "node/no-top-level-await": "off",
           ...nodeRules,
           ...rules,
         },

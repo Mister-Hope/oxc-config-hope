@@ -1,12 +1,15 @@
 configDependencies:
-  pacquet: "^0.11.10"
+  pacquet: ^0.11.12
 
 enableGlobalVirtualStore: true
 
 minimumReleaseAgeExclude:
   - "@oxfmt/*"
   - "@oxlint/*"
+  - "@oxlint-tsgolint/*"
   - oxfmt
   - oxlint
+  - oxlint-tsgolint
+  - tsdown
 
 trustPolicy: no-downgrade
