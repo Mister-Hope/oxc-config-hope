@@ -7,9 +7,7 @@ export const defineCategories = (categories: RuleCategories): RuleCategories => 
 
 export const defineRules = (rules: DummyRuleMap): DummyRuleMap => rules;
 
-/**
- * Known rule prefixes used to categorize rules.
- */
+/** Known rule prefixes used to categorize rules. */
 export const RULE_PREFIXES = [
   "import",
   "node",
@@ -29,27 +27,25 @@ export const RULE_PREFIXES = [
 
 export type RulePrefix = (typeof RULE_PREFIXES)[number];
 
-/**
- * Result of splitting rules by prefix.
- */
+/** Result of splitting rules by prefix. */
 export type SplitRules = Record<string, DummyRuleMap>;
 
 /**
  * Split a DummyRuleMap into separate objects based on rule prefixes.
  *
- * Rules with prefixes like `import/rule1` or `node/rule2` are grouped under
- * their respective prefix keys. Rules without a recognized prefix go to `core`.
+ * Rules with prefixes like `import/rule1` or `node/rule2` are grouped under their respective prefix
+ * keys. Rules without a recognized prefix go to `core`.
+ *
+ * @example
+ *   // input: { "import/rule1": "error", "node/rule2": "warn", "rule3": "off" }
+ *   // output: {
+ *   //   "core": { "rule3": "off" },
+ *   //   "import": { "import/rule1": "error" },
+ *   //   "node": { "node/rule2": "warn" },
+ *   // }
  *
  * @param rules - The rules to split
  * @returns An object with `core` containing unprefixed rules and named keys for each prefix
- *
- * @example
- * // input: { "import/rule1": "error", "node/rule2": "warn", "rule3": "off" }
- * // output: {
- * //   "core": { "rule3": "off" },
- * //   "import": { "import/rule1": "error" },
- * //   "node": { "node/rule2": "warn" },
- * // }
  */
 export const splitRulesByPrefix = (rules: DummyRuleMap): SplitRules => {
   const result: SplitRules = { core: {} };

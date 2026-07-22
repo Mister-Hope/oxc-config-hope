@@ -1,9 +1,7 @@
 import { defineConfig, defineRules } from "./helper.ts";
 import type { DummyRuleMap, OxlintConfig } from "./helper.ts";
 
-/**
- * promise plugin rules
- */
+/** Promise plugin rules */
 export const promiseRules = defineRules({
   // check promise returns while skipping the last one
   "promise/always-return": ["warn", { ignoreLastCallback: true }],
@@ -14,14 +12,12 @@ export const promiseRules = defineRules({
 });
 
 export interface PromiseConfigOptions {
-  /**
-   * Additional promise rules
-   */
+  /** Additional promise rules */
   rules?: DummyRuleMap;
 }
 
 /**
- * promise plugin config
+ * Promise plugin config
  *
  * @returns OxlintConfig
  */

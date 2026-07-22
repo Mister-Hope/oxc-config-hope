@@ -8,9 +8,7 @@ import type { OxlintConfig } from "./helper.ts";
 import { defaultIgnorePatterns } from "./ignore.ts";
 
 export interface HopeConfigOptions extends ConfigOptions {
-  /**
-   * Glob patterns for files to ignore. It supports the same syntax as .eslintignore.
-   */
+  /** Glob patterns for files to ignore. It supports the same syntax as .eslintignore. */
   ignore?: string[];
 }
 

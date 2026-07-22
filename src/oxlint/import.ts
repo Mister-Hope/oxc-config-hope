@@ -1,9 +1,7 @@
 import { defineConfig, defineRules } from "./helper.ts";
 import type { DummyRuleMap, OxlintConfig } from "./helper.ts";
 
-/**
- * import plugin rules
- */
+/** Import plugin rules */
 export const importRules = defineRules({
   // exports shall be at their declaration location
   "import/exports-last": "off",
@@ -24,9 +22,7 @@ export const importRules = defineRules({
 });
 
 export interface ImportConfigOptions {
-  /**
-   * Additional rules for import related rules.
-   */
+  /** Additional rules for import related rules. */
   rules?: DummyRuleMap;
 }
 

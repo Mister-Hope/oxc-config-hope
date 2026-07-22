@@ -1,9 +1,7 @@
 import { defineConfig, defineRules } from "./helper.ts";
 import type { DummyRuleMap, OxlintConfig } from "./helper.ts";
 
-/**
- * react plugin rules
- */
+/** React plugin rules */
 export const reactRules = defineRules({
   // react plugin rules
   // allow jsx in tsx files
@@ -15,14 +13,12 @@ export const reactRules = defineRules({
 });
 
 export interface ReactConfigOptions {
-  /**
-   * Additional react rules
-   */
+  /** Additional react rules */
   rules?: DummyRuleMap;
 }
 
 /**
- * react plugin config
+ * React plugin config
  *
  * @returns OxlintConfig
  */

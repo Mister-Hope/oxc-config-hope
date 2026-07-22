@@ -2,9 +2,7 @@ import type { DummyRuleMap, OxlintConfig } from "./helper.ts";
 import { defineConfig, defineRules } from "./helper.ts";
 import { jsdocTypescriptRules } from "./jsdoc.ts";
 
-/**
- * typescript plugin rules
- */
+/** Typescript plugin rules */
 export const typescriptRules = defineRules({
   // typescript plugin rules
   // we prefer explicit protected/private accessibility modifiers, but omit public if possible
@@ -81,23 +79,19 @@ export const typescriptRules = defineRules({
   "typescript/promise-function-async": ["error", { checkArrowFunctions: false }],
 });
 
-/**
- * typescript related rules
- */
+/** Typescript related rules */
 export const typeScriptRelatedRules = defineRules({
   ...typescriptRules,
   ...jsdocTypescriptRules,
 });
 
 export interface TypeScriptConfigOptions {
-  /**
-   * Additional typescript rules
-   */
+  /** Additional typescript rules */
   rules?: DummyRuleMap;
 }
 
 /**
- * typescript config
+ * Typescript config
  *
  * @param options TypeScriptConfigOptions
  * @returns OxlintConfig

@@ -3,9 +3,7 @@ import type { DummyRuleMap, OxlintConfig } from "./helper.ts";
 
 export const defaultUnderScoreDangleAllow = ["__dirname", "__filename"];
 
-/**
- * oxlint core rules
- */
+/** Oxlint core rules */
 export const coreRules = defineRules({
   // core rules
   // we should not enforce capitalized comments
@@ -63,9 +61,7 @@ export const coreRules = defineRules({
   "sort-keys": "off",
 });
 
-/**
- * stylistic rules with default being tweaked
- */
+/** Stylistic rules with default being tweaked */
 export const stylisticRules = defineRules({
   "catch-error-name": ["warn", { name: "err" }],
   curly: ["warn", "multi-or-nest", "consistent"],
@@ -100,9 +96,7 @@ export const stylisticRules = defineRules({
 });
 
 export interface CoreConfigOptions {
-  /**
-   * Additional core rules, merged with default core rules.
-   */
+  /** Additional core rules, merged with default core rules. */
   rules?: DummyRuleMap;
 }
 

@@ -1,9 +1,7 @@
 import { defineConfig, defineRules } from "./helper.ts";
 import type { DummyRuleMap, OxlintConfig } from "./helper.ts";
 
-/**
- * oxc plugin rules
- */
+/** Oxc plugin rules */
 export const oxcRules = defineRules({
   // our environment supports object rest/spread properties
   "oxc/no-rest-spread-properties": "off",
@@ -14,14 +12,12 @@ export const oxcRules = defineRules({
 });
 
 export interface OxcConfigOptions {
-  /**
-   * Additional oxc rules
-   */
+  /** Additional oxc rules */
   rules?: DummyRuleMap;
 }
 
 /**
- * oxc plugin config
+ * Oxc plugin config
  *
  * @returns OxlintConfig
  */

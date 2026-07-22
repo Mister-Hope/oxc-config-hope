@@ -3,9 +3,7 @@ import type { OxlintOverride } from "oxlint";
 import type { DummyRuleMap, OxlintConfig } from "./helper.ts";
 import { defineConfig, defineRules } from "./helper.ts";
 
-/**
- * vitest plugin rules
- */
+/** Vitest plugin rules */
 export const vitestRules = defineRules({
   // stylistic rules
   "id-length": "off",
@@ -75,18 +73,12 @@ export const vitestRules = defineRules({
   "vitest/valid-title": ["warn", { allowArguments: true }],
 });
 
-/**
- * Vitest related configuration.
- */
+/** Vitest related configuration. */
 export interface VitestScopeConfig {
-  /**
-   * test files pattern
-   */
+  /** Test files pattern */
   tests?: string | string[];
 
-  /**
-   * bench files pattern
-   */
+  /** Bench files pattern */
   bench?: string | string[] | boolean;
 }
 
@@ -102,10 +94,7 @@ export interface VitestScopeConfig {
 export type VitestScopeOptions = boolean | string | string[] | VitestScopeConfig;
 
 export interface VitestConfigOptions {
-  /**
-   * Additional vitest rules, merged with default vitest rules.
-   *
-   */
+  /** Additional vitest rules, merged with default vitest rules. */
   rules?: DummyRuleMap;
 
   benchRules?: DummyRuleMap;

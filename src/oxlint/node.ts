@@ -8,29 +8,27 @@ export const nodeRules = defineRules({
   "node/no-sync": "off",
 });
 
-/**
- * Node related configuration.
- */
+/** Node related configuration. */
 export interface NodeScopeConfig {
   /**
    * Whether to enable node plugin globally
    *
-   * @description This means all files are treated as node environment. Use with caution since it may cause false positives in non-node files.
+   * This means all files are treated as node environment. Use with caution since it may cause false
+   * positives in non-node files.
    *
    * @default false
    */
   global?: boolean;
 
-  /**
-   * glob patterns for files that should be treated as node environment.
-   */
+  /** Glob patterns for files that should be treated as node environment. */
   nodeFiles?: string | string[];
 }
 
 /**
  * Node related configuration.
  *
- * - `true`: enable node plugin globally, all files are treated as node environment. Use with caution since it may cause false positives in non-node files.
+ * - `true`: enable node plugin globally, all files are treated as node environment. Use with caution
+ *   since it may cause false positives in non-node files.
  * - `false`: do not enable node plugin.
  * - `string` or `string[]`: glob patterns for files that should be treated as node environment.
  *
@@ -39,10 +37,7 @@ export interface NodeScopeConfig {
 export type NodeScopeOptions = boolean | string | string[] | NodeScopeConfig;
 
 export interface NodeConfigOptions {
-  /**
-   * Additional node rules, merged with default node rules.
-   *
-   */
+  /** Additional node rules, merged with default node rules. */
   rules?: DummyRuleMap;
 }
 
@@ -86,13 +81,13 @@ export const resolveNodeScope = (
  * Get node plugin config based on the provided options.
  *
  * @param options Additional node plugin configuration options, such as additional rules.
- *
  * @param scope Node related configuration options.
  *
- * - `'default'`: use default node file patterns (config files and cli/node files).
- * - `true`: enable node plugin globally, all files are treated as node environment. Use with caution since it may cause false positives in non-node files.
- * - `false`: do not enable node plugin.
- * - `string` or `string[]`: glob patterns for files that should be treated as node environment.
+ *   - `'default'`: use default node file patterns (config files and cli/node files).
+ *   - `true`: enable node plugin globally, all files are treated as node environment. Use with
+ *     caution since it may cause false positives in non-node files.
+ *   - `false`: do not enable node plugin.
+ *   - `string` or `string[]`: glob patterns for files that should be treated as node environment.
  *
  * @returns OxlintConfig or null if node plugin is not enabled.
  */

@@ -1,9 +1,7 @@
 import { defineConfig, defineRules } from "./helper.ts";
 import type { DummyRuleMap, OxlintConfig } from "./helper.ts";
 
-/**
- * unicorn plugin rules
- */
+/** Unicorn plugin rules */
 export const unicornRules = defineRules({
   // filename should not be enforced strictly, e.g. Vue SFC files shall be PascalCased
   // we shall expect a project level setting
@@ -38,14 +36,12 @@ export const unicornRules = defineRules({
 });
 
 export interface UnicornConfigOptions {
-  /**
-   * Additional unicorn rules
-   */
+  /** Additional unicorn rules */
   rules?: DummyRuleMap;
 }
 
 /**
- * unicorn plugin config
+ * Unicorn plugin config
  *
  * @returns OxlintConfig
  */

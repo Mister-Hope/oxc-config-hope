@@ -17,9 +17,7 @@ import type { VitestScopeOptions } from "./vitest.ts";
 import { getVueConfig } from "./vue.ts";
 
 export interface ConfigOptions {
-  /**
-   * Rules to configure.
-   */
+  /** Rules to configure. */
   rules?: DummyRuleMap;
 
   /**
@@ -67,7 +65,8 @@ export interface ConfigOptions {
   /**
    * Node related configuration.
    *
-   * - `true`: enable node plugin globally, all files are treated as node environment. Use with caution since it may cause false positives in non-node files.
+   * - `true`: enable node plugin globally, all files are treated as node environment. Use with
+   *   caution since it may cause false positives in non-node files.
    * - `false`: do not enable node plugin.
    * - `string` or `string[]`: glob patterns for files that should be treated as node environment.
    *
@@ -101,9 +100,7 @@ export interface ConfigOptions {
    */
   vitest?: VitestScopeOptions | false;
 
-  /**
-   * Additional vitest bench rules.
-   */
+  /** Additional vitest bench rules. */
   vitestBenchRules?: DummyRuleMap;
 
   /**
