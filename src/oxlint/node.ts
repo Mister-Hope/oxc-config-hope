@@ -6,9 +6,6 @@ export const nodeRules = defineRules({
   "import/no-nodejs-modules": "off",
   // allow using synchronous methods in config files and scripts
   "node/no-sync": "off",
-
-  // top-level await should be allowed in config files
-  "node/no-top-level-await": ["warn", { ignoreBin: true }],
 });
 
 /** Node related configuration. */
@@ -105,9 +102,47 @@ export const getNodeConfig = (
     return defineConfig({
       plugins: ["node"],
       rules: {
+        // top-level await should be allowed in bin files
+        "node/no-top-level-await": ["warn", { ignoreBin: true }],
         ...nodeRules,
         ...rules,
       },
+      overrides: [
+        // script files
+        {
+          files: ["**/scripts/**/*.{js,ts}"],
+          plugins: ["node"],
+          rules: {
+            // allow console usage in scripts files
+            "no-console": "off",
+            // scripts files shall be allowed to access process.env
+            "node/no-process-env": "off",
+            // top-level await should be allowed in scripts
+            "node/no-top-level-await": "off",
+          },
+        },
+
+        // config files
+        {
+          files: ["*.config.{js,ts,mjs,mts,cjs,cts}"],
+          plugins: ["node"],
+          rules: {
+            // config files shall be allowed to access process.env
+            "node/no-process-env": "off",
+            // top-level await should be allowed in config files
+            "node/no-top-level-await": "off",
+          },
+        },
+
+        // vite config files
+        {
+          files: ["{vite,vitest}.config.{js,ts,mjs,mts,cjs,cts}"],
+          rules: {
+            // vite loader polyfills __dirname and __filename
+            "prefer-module": "off",
+          },
+        },
+      ],
     });
   }
 
@@ -116,6 +151,17 @@ export const getNodeConfig = (
   // enable node plugin for specific files
   return defineConfig({
     overrides: [
+      {
+        files: patterns,
+        plugins: ["node"],
+        rules: {
+          // top-level await should be allowed in bin files
+          "node/no-top-level-await": ["warn", { ignoreBin: true }],
+          ...nodeRules,
+          ...rules,
+        },
+      },
+
       // script files
       {
         files: ["**/scripts/**/*.{js,ts}"],
@@ -152,15 +198,6 @@ export const getNodeConfig = (
         rules: {
           // vite loader polyfills __dirname and __filename
           "prefer-module": "off",
-        },
-      },
-
-      {
-        files: patterns,
-        plugins: ["node"],
-        rules: {
-          ...nodeRules,
-          ...rules,
         },
       },
     ],
