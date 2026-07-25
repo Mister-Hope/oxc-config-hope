@@ -21,6 +21,9 @@ export const vitestRules = defineRules({
   // allow importing node modules in tests
   "import/no-nodejs-modules": "off",
 
+  // top-level await should be allowed in config files
+  "node/no-top-level-await": "off",
+
   // allow @ts-ignore and @ts-expect-error in tests
   "typescript/ban-ts-comment": "off",
   // allow void expressions in tests, e.g.: check a void function returns undefined

@@ -6,6 +6,9 @@ export const nodeRules = defineRules({
   "import/no-nodejs-modules": "off",
   // allow using synchronous methods in config files and scripts
   "node/no-sync": "off",
+
+  // top-level await should be allowed in config files
+  "node/no-top-level-await": ["warn", { ignoreBin: true }],
 });
 
 /** Node related configuration. */
@@ -95,7 +98,7 @@ export const getNodeConfig = (
   { rules }: NodeConfigOptions = {},
   scope: NodeScopeOptions = "default",
 ): OxlintConfig => {
-  const { global, patterns } = resolveNodeScope(scope, DEFAULT_NODE_PATTERNS);
+  const { global, patterns } = resolveNodeScope(scope);
 
   if (global) {
     // enable node plugin globally
