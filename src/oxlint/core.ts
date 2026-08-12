@@ -93,6 +93,8 @@ export const stylisticRules = defineRules({
   "max-lines-per-function": ["warn", { max: 100, skipBlankLines: true, skipComments: true }],
   "max-params": ["warn", 4],
   "max-statements": ["warn", { max: 30 }],
+  // prefer grouping uninitialized vars consecutively, but never group initialized vars
+  "one-var": ["warn", { initialized: "never", uninitialized: "consecutive" }],
 });
 
 export interface CoreConfigOptions {
