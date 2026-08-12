@@ -48,14 +48,14 @@
   },
   "devDependencies": {
     "@mr-hope/tsconfig": "0.0.4",
-    "publint": "0.3.22",
+    "publint": "0.3.23",
     "tsdown": "0.22.14",
     "typescript": "7.0.2",
     "vitest": "4.1.10"
   },
   "peerDependencies": {
-    "oxfmt": ">=0.60.0",
-    "oxlint": "^1.75.0",
+    "oxfmt": ">=0.63.0",
+    "oxlint": "^1.78.0",
     "oxlint-tsgolint": ">=7.0.2"
   },
   "peerDependenciesMeta": {
