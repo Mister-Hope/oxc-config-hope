@@ -180,5 +180,13 @@ export const getTypeScriptConfig = ({ rules = {} }: TypeScriptConfigOptions = {}
           "typescript/use-unknown-in-catch-callback-variable": "off",
         },
       },
+
+      // allow commonjs usage in cjs files
+      {
+        files: ["*.cjs", "*.cts"],
+        rules: {
+          "typescript/no-require-imports": "off",
+        },
+      },
     ],
   });
