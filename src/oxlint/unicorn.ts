@@ -59,6 +59,13 @@ export const getUnicornConfig = ({ rules = {} }: UnicornConfigOptions = {}): Oxl
       },
 
       {
+        files: ["*.cjs", "*.cts"],
+        rules: {
+          // allow commonjs usage in cjs files
+          "unicorn/prefer-module": "error",
+        },
+      },
+      {
         files: ["*.ts", "*.cts", "*.mts"],
         rules: {
           // we need `export {}` to convert a file to a module

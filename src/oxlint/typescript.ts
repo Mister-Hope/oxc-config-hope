@@ -186,6 +186,7 @@ export const getTypeScriptConfig = ({ rules = {} }: TypeScriptConfigOptions = {}
         files: ["*.cjs", "*.cts"],
         rules: {
           "typescript/no-require-imports": "off",
+          "typescript/no-var-requires": "off",
         },
       },
     ],
