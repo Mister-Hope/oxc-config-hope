@@ -17,7 +17,7 @@
     "url": "https://mister-hope.com"
   },
   "repository": {
-    "url": "https://github.com/Mister-Hope/oxc-config-hope"
+    "url": "git+https://github.com/Mister-Hope/oxc-config-hope.git"
   },
   "files": [
     "dist"
@@ -48,14 +48,14 @@
   },
   "devDependencies": {
     "@mr-hope/tsconfig": "0.0.4",
-    "publint": "0.3.23",
+    "publint": "0.3.24",
     "tsdown": "0.23.0",
     "typescript": "7.0.2",
-    "vitest": "5.0.0"
+    "vitest": "5.0.1"
   },
   "peerDependencies": {
-    "oxfmt": ">=0.63.0",
-    "oxlint": "^1.78.0",
+    "oxfmt": ">=0.70.0",
+    "oxlint": "^1.85.0",
     "oxlint-tsgolint": ">=7.0.2"
   },
   "peerDependenciesMeta": {
@@ -72,12 +72,12 @@
   "devEngines": {
     "packageManager": {
       "name": "pnpm",
-      "version": "11.15.1",
+      "version": "12.6.0",
       "onFail": "download"
     },
     "runtime": {
       "name": "node",
-      "version": "^22.22.0 || ^24.16.0 || ^26.3.0",
+      "version": "^22.22.0 || ^24.21.0 || ^26.6.0",
       "onFail": "error"
     }
   },
