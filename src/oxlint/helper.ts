@@ -1,7 +1,10 @@
-import type { DummyRuleMap, RuleCategories } from "oxlint";
+import type { DummyRuleMap, OxlintConfig, RuleCategories } from "oxlint";
 
 export { defineConfig } from "oxlint";
 export type { DummyRuleMap, OxlintConfig } from "oxlint";
+
+/** Options for the linter, i.e. the `options` field of an oxlint config. */
+export type OxlintOptions = NonNullable<OxlintConfig["options"]>;
 
 export const defineCategories = (categories: RuleCategories): RuleCategories => categories;
 
