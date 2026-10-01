@@ -33,6 +33,7 @@ export const defineHopeConfig = (
       typeAware: true,
       typeCheck: true,
       denyWarnings: true,
+      reportUnusedDisableDirectives: "warn",
       maxWarnings: 10,
       ...options.options,
     },
