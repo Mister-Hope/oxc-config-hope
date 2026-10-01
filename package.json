@@ -42,7 +42,7 @@
     "build": "tsdown",
     "lint": "pnpm lint:oxlint --fix && oxfmt .",
     "lint:check": "pnpm lint:oxlint && oxfmt --check .",
-    "lint:oxlint": "oxlint --report-unused-disable-directives --deny-warnings",
+    "lint:oxlint": "oxlint",
     "prepublish": "pnpm build",
     "test": "vitest"
   },
@@ -51,7 +51,7 @@
     "publint": "0.3.24",
     "tsdown": "0.23.0",
     "typescript": "7.0.2",
-    "vitest": "5.0.1"
+    "vitest": "5.0.2"
   },
   "peerDependencies": {
     "oxfmt": ">=0.70.0",

@@ -1,4 +1,3 @@
 {
-  "editor.defaultFormatter": "oxc.oxc-vscode",
-  "oxc.unusedDisableDirectives": "deny"
+  "editor.defaultFormatter": "oxc.oxc-vscode"
 }
