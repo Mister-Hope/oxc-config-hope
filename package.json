@@ -40,22 +40,21 @@
   },
   "scripts": {
     "build": "tsdown",
-    "lint": "pnpm lint:oxlint --fix && oxfmt .",
-    "lint:check": "pnpm lint:oxlint && oxfmt --check .",
-    "lint:oxlint": "oxlint",
+    "lint": "oxlint --fix && oxfmt .",
+    "lint:check": "oxlint && oxfmt --check .",
     "prepublish": "pnpm build",
     "test": "vitest"
   },
   "devDependencies": {
     "@mr-hope/tsconfig": "0.0.4",
-    "publint": "0.3.24",
-    "tsdown": "0.23.0",
+    "publint": "0.3.25",
+    "tsdown": "0.23.1",
     "typescript": "7.0.2",
-    "vitest": "5.0.2"
+    "vitest": "5.0.3"
   },
   "peerDependencies": {
-    "oxfmt": ">=0.70.0",
-    "oxlint": "^1.85.0",
+    "oxfmt": ">=0.72.0 && < 1.0.0",
+    "oxlint": "^1.87.0",
     "oxlint-tsgolint": ">=7.0.2"
   },
   "peerDependenciesMeta": {
@@ -72,7 +71,7 @@
   "devEngines": {
     "packageManager": {
       "name": "pnpm",
-      "version": "12.8.1",
+      "version": "12.11.2",
       "onFail": "download"
     },
     "runtime": {
