@@ -9,7 +9,8 @@
     ":enableVulnerabilityAlerts",
     ":dependencyDashboard",
     "schedule:weekends"
-  ],  "packageRules": [
+  ],
+  "packageRules": [
     {
       "description": "Patch/minor devDependency updates are safe to merge automatically.",
       "automerge": true,
