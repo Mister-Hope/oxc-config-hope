@@ -21,9 +21,7 @@ jobs:
         uses: pnpm/setup@v3
         with:
           runtime: node@24
-
-      - name: Install deps
-        run: pnpm ci
+          require-lockfile: true
 
       - name: Publish packages
         run: pnpm publish --no-git-checks
