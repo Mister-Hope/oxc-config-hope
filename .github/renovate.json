@@ -10,6 +10,20 @@
     ":dependencyDashboard",
     "schedule:weekends"
   ],
+  "packageRules": [
+    {
+      "description": "Patch/minor devDependency updates are safe to merge automatically.",
+      "automerge": true,
+      "matchDepTypes": ["devDependencies"],
+      "matchUpdateTypes": ["patch", "minor"]
+    },
+    {
+      "description": "Major devDependency updates need a human review.",
+      "automerge": false,
+      "matchDepTypes": ["devDependencies"],
+      "matchUpdateTypes": ["major"]
+    }
+  ],
   "lockFileMaintenance": {
     "enabled": true,
     "commitMessageAction": "update lockfile",
