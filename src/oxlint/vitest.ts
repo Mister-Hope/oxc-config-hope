@@ -50,8 +50,8 @@ export const vitestRules = defineRules({
   "vitest/consistent-test-filename": [
     "warn",
     {
-      allTestPattern: "(^|\\/)(?:__tests__|tests)\\/",
-      pattern: ".*\\.((bench|spec)\\.[tj]sx?|spec-d\\.ts)$",
+      allTestPattern: String.raw`(^|\/)(?:__tests__|tests)\/`,
+      pattern: String.raw`.*\.((bench|spec)\.[tj]sx?|spec-d\.ts)$`,
     },
   ],
   // limit the number of expects in a test
@@ -152,8 +152,8 @@ export const getVitestConfig = (
         rules: { ...vitestRules, ...options.rules },
       },
 
-      // oxlint-disable-next-line typescript/strict-boolean-expressions
-      ...(benchPatterns
+      ...// oxlint-disable-next-line typescript/strict-boolean-expressions
+      (benchPatterns
         ? [
             {
               files: benchPatterns,

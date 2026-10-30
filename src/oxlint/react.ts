@@ -4,6 +4,10 @@ import type { DummyRuleMap, OxlintConfig } from "./helper.ts";
 /** React plugin rules */
 export const reactRules = defineRules({
   // react plugin rules
+  "react/function-component-definition": [
+    "warn",
+    { namedComponents: "arrow-function", unnamedComponents: "arrow-function" },
+  ],
   // allow jsx in tsx files
   "react/jsx-filename-extension": ["warn", { extensions: [".jsx", ".tsx"] }],
   // default 2 levels is too low for complex components
